@@ -9,19 +9,19 @@ CREATE PROCEDURE [dbo].Delivery_Delete
 	
 AS
 BEGIN
-	DELETE FROM [EdgeSystem].[dbo].[Delivery]
+	DELETE FROM [dbo].[Delivery]
       WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].[DeliveryFile]
+DELETE FROM [dbo].[DeliveryFile]
        WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].[DeliveryFileParameters]
+DELETE FROM [dbo].[DeliveryFileParameters]
        WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].[DeliveryParameters]
+DELETE FROM [dbo].[DeliveryParameters]
       WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].DeliveryOutput
+DELETE FROM [dbo].DeliveryOutput
       WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].DeliveryOutputParameters
+DELETE FROM [dbo].DeliveryOutputParameters
       WHERE DeliveryID=@deliveryID
-DELETE FROM [EdgeSystem].[dbo].DeliveryOutputChecksum
+DELETE FROM [dbo].DeliveryOutputChecksum
       WHERE DeliveryID=@deliveryID
 
 END

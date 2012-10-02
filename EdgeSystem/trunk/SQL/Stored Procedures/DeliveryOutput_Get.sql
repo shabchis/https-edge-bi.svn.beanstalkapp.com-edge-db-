@@ -17,14 +17,14 @@ BEGIN
       ,[DateCreated]
       ,[DateModified]
       ,[PipelineInstanceID]
-  FROM [EdgeSystem].[dbo].[DeliveryOutput]
+  FROM [dbo].[DeliveryOutput]
   WHERE [OutputID]=@outputID  
   ------------DeliveryOutputParameters------- 
 SELECT [DeliveryID]
       ,[OutputID]
       ,[Key]
       ,[Value]
-  FROM [EdgeSystem].[dbo].[DeliveryOutputParameters]
+  FROM [dbo].[DeliveryOutputParameters]
   WHERE [OutputID]=@outputID  
   
   -----------OutputCheckSum--------
@@ -32,7 +32,7 @@ SELECT [DeliveryID]
       ,[OutputID]
       ,[MeasureName]
       ,[Total]
-  FROM [EdgeSystem].[dbo].[DeliveryOutputChecksum]
+  FROM [dbo].[DeliveryOutputChecksum]
   WHERE [OutputID]=@outputID  
   
  

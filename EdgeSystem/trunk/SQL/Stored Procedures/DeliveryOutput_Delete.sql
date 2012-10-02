@@ -9,11 +9,11 @@ Create PROCEDURE [dbo].[DeliveryOutput_Delete]
 	
 AS
 BEGIN
-DELETE FROM [Edge_System291].[dbo].DeliveryOutput
+DELETE FROM [dbo].DeliveryOutput
       WHERE DeliveryID=@outputID
-DELETE FROM [Edge_System291].[dbo].DeliveryOutputParameters
+DELETE FROM [dbo].DeliveryOutputParameters
       WHERE DeliveryID=@outputID
-DELETE FROM [Edge_System291].[dbo].DeliveryOutputChecksum
+DELETE FROM [dbo].DeliveryOutputChecksum
       WHERE DeliveryID=@outputID
 
 END
