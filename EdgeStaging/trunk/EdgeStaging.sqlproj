@@ -105,56 +105,56 @@
     <Folder Include="Properties" />
     <Folder Include="SQL" />
     <Folder Include="SQL\Tables" />
-    <Folder Include="SQL\Tables\___dev" />
+    <Folder Include="SQL\Tables\__dev" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="SQL\Tables\___dev\10035_AdChannel.sql">
+    <Build Include="SQL\Tables\__dev\10035_AdChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\SocialChannel.sql">
+    <Build Include="SQL\Tables\__dev\SocialChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
   </ItemGroup>
   <ItemGroup>
-    <Build Include="SQL\Tables\___dev\10035_BackEnd.sql">
+    <Build Include="SQL\Tables\__dev\10035_BackEnd.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\10035_Display.sql">
+    <Build Include="SQL\Tables\__dev\10035_Display.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\10035_SocialChannel.sql">
+    <Build Include="SQL\Tables\__dev\10035_SocialChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\10035_VideoAdChannel.sql">
+    <Build Include="SQL\Tables\__dev\10035_VideoAdChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\7_AdChannel.sql">
+    <Build Include="SQL\Tables\__dev\7_AdChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\7_BackEnd.sql">
+    <Build Include="SQL\Tables\__dev\7_BackEnd.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\7_Display.sql">
+    <Build Include="SQL\Tables\__dev\7_Display.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\7_SocialChannel.sql">
+    <Build Include="SQL\Tables\__dev\7_SocialChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\7_VideoAdChannel.sql">
+    <Build Include="SQL\Tables\__dev\7_VideoAdChannel.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\___dev\BackEnd.sql">
+    <Build Include="SQL\Tables\__dev\BackEnd.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
