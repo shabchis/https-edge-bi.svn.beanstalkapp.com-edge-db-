@@ -1,0 +1,76 @@
+02/10/2012 12:42:08	This log contains information about the import schema operation into project 'EdgeSystem' on computer 'WS013' by user 'Doron'.
+02/10/2012 12:42:08	Import of database schema has started.
+02/10/2012 12:42:17	Gathering database options
+02/10/2012 12:42:17	Gathering users
+02/10/2012 12:42:17	Gathering roles
+02/10/2012 12:42:17	Gathering application roles
+02/10/2012 12:42:17	Gathering role memberships
+02/10/2012 12:42:17	Gathering filegroups
+02/10/2012 12:42:17	Gathering full-text catalogs
+02/10/2012 12:42:17	Gathering assemblies
+02/10/2012 12:42:17	Gathering certificates
+02/10/2012 12:42:17	Gathering asymmetric keys
+02/10/2012 12:42:17	Gathering symmetric keys
+02/10/2012 12:42:17	Gathering encrypted symmetric keys
+02/10/2012 12:42:17	Gathering schemas
+02/10/2012 12:42:17	Gathering XML schema collections
+02/10/2012 12:42:17	Gathering user-defined data types
+02/10/2012 12:42:17	Gathering user-defined types
+02/10/2012 12:42:17	Gathering table types
+02/10/2012 12:42:17	Gathering unique keys for table types
+02/10/2012 12:42:17	Gathering primary keys for table types
+02/10/2012 12:42:17	Gathering check constraints for table types
+02/10/2012 12:42:17	Gathering default constraints for table types
+02/10/2012 12:42:17	Gathering partition functions
+02/10/2012 12:42:17	Gathering partition schemes
+02/10/2012 12:42:17	Gathering functions
+02/10/2012 12:42:17	Gathering encrypted functions
+02/10/2012 12:42:17	Gathering aggregates
+02/10/2012 12:42:17	Gathering procedures
+02/10/2012 12:42:18	Gathering encrypted procedures
+02/10/2012 12:42:18	Gathering tables
+02/10/2012 12:42:18	Gathering primary keys
+02/10/2012 12:42:18	Gathering unique constraints
+02/10/2012 12:42:18	Gathering foreign keys
+02/10/2012 12:42:18	Gathering default constraints
+02/10/2012 12:42:18	Gathering check constraints
+02/10/2012 12:42:18	Gathering views
+02/10/2012 12:42:18	Gathering encrypted views
+02/10/2012 12:42:18	Gathering indexes
+02/10/2012 12:42:18	Gathering statistics
+02/10/2012 12:42:18	Gathering full-text index stoplists
+02/10/2012 12:42:18	Gathering search property lists
+02/10/2012 12:42:18	Gathering search properties
+02/10/2012 12:42:18	Gathering full-text indexes
+02/10/2012 12:42:18	Gathering column store indexes
+02/10/2012 12:42:18	Gathering spatial indexes
+02/10/2012 12:42:18	Gathering XML indexes
+02/10/2012 12:42:18	Gathering encrypted triggers
+02/10/2012 12:42:18	Gathering triggers
+02/10/2012 12:42:18	Gathering encrypted and clr ddl triggers
+02/10/2012 12:42:18	Gathering ddl triggers
+02/10/2012 12:42:18	Gathering synonyms
+02/10/2012 12:42:18	Gathering defaults
+02/10/2012 12:42:18	Gathering data constraint uddt bindings
+02/10/2012 12:42:18	Gathering rules
+02/10/2012 12:42:18	Gathering data constraint uddt bindings
+02/10/2012 12:42:18	Gathering message types
+02/10/2012 12:42:18	Gathering queues
+02/10/2012 12:42:18	Gathering contracts
+02/10/2012 12:42:18	Gathering services
+02/10/2012 12:42:18	Gathering event notifications
+02/10/2012 12:42:18	Gathering remote service bindings
+02/10/2012 12:42:18	Gathering broker priorities
+02/10/2012 12:42:18	Gathering signatures
+02/10/2012 12:42:18	Gathering data compression options
+02/10/2012 12:42:18	Gathering sequence types
+02/10/2012 12:42:18	Gathering database permissions
+02/10/2012 12:42:18	Gathering extended properties
+02/10/2012 12:42:18	Gathering credentials
+02/10/2012 12:42:18	Gathering logins
+02/10/2012 12:42:18	Gathering server audits
+02/10/2012 12:42:18	Scanning project for duplicate elements
+02/10/2012 12:42:19	Finished duplicate element processing
+02/10/2012 12:42:19	Finished importing database.
+02/10/2012 12:42:19	A summary of the import was saved to the following location: D:\Edge\EDGE-MERGE\edge-db\EdgeSystem\trunk\Import Schema Logs\EdgeSystem_20121002104208.log
+02/10/2012 12:42:19	Click Finish to continue...
