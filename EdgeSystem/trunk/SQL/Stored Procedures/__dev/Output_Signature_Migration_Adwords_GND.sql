@@ -3,7 +3,7 @@
 -- Create date: 21.06.2012
 -- Description:	Signature migration for Adwords services
 -- =============================================
-CREATE PROCEDURE [dbo].[__Output_Signature_Migration_Adwords_GND]
+CREATE PROCEDURE [dbo].[Output_Signature_Migration_Adwords_GND]
 
 AS
 

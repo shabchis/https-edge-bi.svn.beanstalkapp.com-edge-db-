@@ -108,6 +108,7 @@
     <Folder Include="SQL\Functions" />
     <Folder Include="SQL\Stored Procedures" />
     <Folder Include="CLR" />
+    <Folder Include="SQL\Stored Procedures\__dev" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="SQL\Tables\Log.sql">
@@ -163,10 +164,6 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="SQL\Stored Procedures\Delivery_GetByTimePeriod.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="SQL\Stored Procedures\SP_RollBack_DWH.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
@@ -226,7 +223,11 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\__Output_Signature_Migration_Adwords_GND.sql">
+    <Build Include="SQL\Stored Procedures\__dev\Output_Signature_Migration_Adwords_GND.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="SQL\Stored Procedures\__dev\SP_RollBack_DWH.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
