@@ -104,28 +104,28 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="dbo\" />
-    <Folder Include="dbo\Tables\" />
-    <Folder Include="dbo\Stored Procedures\" />
-    <Folder Include="clr" />
+    <Folder Include="SQL" />
+    <Folder Include="SQL\Tables" />
+    <Folder Include="SQL\Stored Procedures" />
+    <Folder Include="CLR" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\MeasureType.sql" />
-    <Build Include="dbo\Tables\EdgeObject.sql" />
-    <Build Include="dbo\Tables\MetaProperty.sql" />
-    <Build Include="dbo\Tables\Account.sql" />
-    <Build Include="dbo\Tables\ObjectTracking.sql" />
-    <Build Include="dbo\Tables\CreativeComposite.sql" />
-    <Build Include="dbo\Tables\Goal.sql" />
-    <Build Include="dbo\Tables\Ad.sql" />
-    <Build Include="dbo\Tables\AdTargetMatch.sql" />
-    <Build Include="dbo\Tables\GenericTargetMatch.sql" />
-    <Build Include="dbo\Tables\AdTarget.sql" />
-    <Build Include="dbo\Tables\Target.sql" />
-    <Build Include="dbo\Tables\Creative.sql" />
-    <Build Include="dbo\Tables\Channel.sql" />
-    <Build Include="dbo\Tables\MetaValue.sql" />
-    <Build Include="dbo\Tables\Measure.sql" />
+    <Build Include="SQL\Tables\MeasureType.sql" />
+    <Build Include="SQL\Tables\EdgeObject.sql" />
+    <Build Include="SQL\Tables\MetaProperty.sql" />
+    <Build Include="SQL\Tables\Account.sql" />
+    <Build Include="SQL\Tables\ObjectTracking.sql" />
+    <Build Include="SQL\Tables\CreativeComposite.sql" />
+    <Build Include="SQL\Tables\Goal.sql" />
+    <Build Include="SQL\Tables\Ad.sql" />
+    <Build Include="SQL\Tables\AdTargetMatch.sql" />
+    <Build Include="SQL\Tables\GenericTargetMatch.sql" />
+    <Build Include="SQL\Tables\AdTarget.sql" />
+    <Build Include="SQL\Tables\Target.sql" />
+    <Build Include="SQL\Tables\Creative.sql" />
+    <Build Include="SQL\Tables\Channel.sql" />
+    <Build Include="SQL\Tables\MetaValue.sql" />
+    <Build Include="SQL\Tables\Measure.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\edge-framework\Edge.Data.Objects\trunk\Edge.Data.Objects.csproj">
@@ -150,6 +150,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clr\ObjectViewer.cs" />
+    <Compile Include="CLR\ObjectViewer.cs" />
   </ItemGroup>
 </Project>
