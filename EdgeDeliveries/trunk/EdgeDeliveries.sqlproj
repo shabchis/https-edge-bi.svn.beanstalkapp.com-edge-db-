@@ -103,116 +103,102 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="dbo\" />
-    <Folder Include="dbo\Tables\" />
-    <Folder Include="dbo\Views\" />
-    <Folder Include="dbo\Functions\" />
-    <Folder Include="dbo\Stored Procedures\" />
-    <Folder Include="Assemblies\" />
+    <Folder Include="SQL" />
+    <Folder Include="SQL\Tables" />
+    <Folder Include="SQL\Views" />
+    <Folder Include="SQL\Functions" />
+    <Folder Include="SQL\Stored Procedures" />
+    <Folder Include="CLR" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Stored Procedures\Drop_Delivery_tables.sql">
+    <Build Include="SQL\Stored Procedures\Drop_Delivery_tables.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Transform_Content.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Transform_Content.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Transform_Facebook_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Transform_Facebook_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_Content.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_Content.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\Get_Delivery_tables.sql">
+    <Build Include="SQL\Stored Procedures\Get_Delivery_tables.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_Facebook_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_Facebook_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Rollback_By_DeliveryID.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Rollback_By_DeliveryID.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Stage_Facebook.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Stage_Facebook.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_Facebook.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_Facebook.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Stage_Content.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Stage_Content.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_Adwords_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_Adwords_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_BO_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_BO_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_Adwords_V2.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_Adwords_V2.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_OLD_Commit_BO.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_OLD_Commit_BO.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Stage_Adwords.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Stage_Adwords.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Insert_BO.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Insert_BO.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\Count_tables.sql">
+    <Build Include="SQL\Stored Procedures\Count_tables.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Stage_BO_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Stage_BO_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Rollback_By_DeliveryOutputID_v291.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Rollback_By_DeliveryOutputID_v291.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Rollback_By_DeliveryID_v291.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Rollback_By_DeliveryID_v291.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Transform_Adwords_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Transform_Adwords_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\SP_Delivery_Transform_BO_Generic.sql">
+    <Build Include="SQL\Stored Procedures\SP_Delivery_Transform_BO_Generic.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\CLR_SP_Delivery_Commit_BO_Generic.sql" />
-    <Build Include="ExtendedProperties.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assemblies\Deliveries.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Deliveries">
-      <HintPath>Assemblies\Deliveries.dll</HintPath>
-      <SqlAssemblyName>Deliveries</SqlAssemblyName>
-      <IsModelAware>True</IsModelAware>
-      <GenerateSqlClrDdl>False</GenerateSqlClrDdl>
-      <SqlOwnerName>dbo</SqlOwnerName>
-      <SqlPermissionSet>SAFE</SqlPermissionSet>
-    </Reference>
+    <Build Include="SQL\Stored Procedures\CLR_SP_Delivery_Commit_BO_Generic.sql" />
   </ItemGroup>
 </Project>
