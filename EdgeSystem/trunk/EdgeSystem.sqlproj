@@ -240,4 +240,7 @@
   <ItemGroup>
     <Compile Include="CLR\ConvertFromBase64CLR.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="EdgeSystem.refactorlog" />
+  </ItemGroup>
 </Project>
