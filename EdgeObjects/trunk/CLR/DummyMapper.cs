@@ -64,7 +64,7 @@ namespace Edge.Data.Objects
 
 			Segment = new Dictionary<string, string>()
 			{
-				{"MetaPropertyID","int_Field1"}
+				{"ConnectionDefinitionID","int_Field1"}
 			};
 			Mapping.Add(typeof(Edge.Data.Objects.Segment), Segment);
 		}

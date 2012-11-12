@@ -63,7 +63,7 @@ public partial class StoredProcedures
 		string sqlAssembly = typeof(Creative).Assembly.FullName;
 		string classNamespace = typeof(Creative).Namespace;
 		DummyMapper mapper = new DummyMapper();
-		bool isMetaProperty = false;
+		bool isConnectionDefinition = false;
 
 
 		#region Getting Type from table name
@@ -92,7 +92,7 @@ public partial class StoredProcedures
 		}
 		else // EdgeObject Type
 		{
-			isMetaProperty = true;
+			isConnectionDefinition = true;
 			dbtableName = typeof(EdgeObject).Name;
 		}
 		/****************************************************************/
@@ -142,18 +142,18 @@ public partial class StoredProcedures
 		#region Where query string
 		/*****************************************************************/
 
-		Int32 metaPropertyID = -1;
+		Int32 connectionDefinitionNameID = -1;
 		string baseValueType = string.Empty;
 
 		col.Append(" WHERE ");
-		if (!isMetaProperty)
+		if (!isConnectionDefinition)
 		{
 			col.Append(" [ObjectType] = @objectType ");
 		}
 		//Get data from Meta Property Table
 		else
 		{
-			baseValueType = GetMetaPropertyBaseValueType(virtualTableName.Value, accountID.IsNull == true ? SqlInt32.Null : accountID, out metaPropertyID);
+			baseValueType = GetConnectionDefinitionBaseValueType(virtualTableName.Value, accountID.IsNull == true ? SqlInt32.Null : accountID, out connectionDefinitionNameID);
 
 			if (string.IsNullOrEmpty(baseValueType))
 				return;
@@ -161,10 +161,10 @@ public partial class StoredProcedures
 			Type baseType = Type.GetType(string.Format("{0}.{1},{2}", classNamespace, baseValueType, sqlAssembly));
 
 
-			string metaPropertyFieldName = mapper.Mapping[baseType]["MetaPropertyID"];
+			string connectionDefinitionName = mapper.Mapping[baseType]["ConnectionDefinitionID"];
 
 			col.Append(" ObjectType = @ObjectType");
-			col.Append(string.Format(" AND {0} = @MetaPropertyID ", metaPropertyFieldName));
+			col.Append(string.Format(" AND {0} = @ConnectionDefinitionID ", connectionDefinitionName));
 
 		}
 
@@ -196,7 +196,7 @@ public partial class StoredProcedures
 		SqlParameter sql_OutputID;
 		SqlParameter sql_dateCreated;
 
-		if (!isMetaProperty)
+		if (!isConnectionDefinition)
 		{
 			SqlParameter sql_objectType = new SqlParameter("@objectType", type.Name);
 			cmd.Parameters.Add(sql_objectType);
@@ -206,8 +206,8 @@ public partial class StoredProcedures
 			SqlParameter sql_objectBaseType = new SqlParameter("@objectType", baseValueType);
 			cmd.Parameters.Add(sql_objectBaseType);
 
-			SqlParameter sql_metaPropertyID = new SqlParameter("@MetaPropertyID", metaPropertyID);
-			cmd.Parameters.Add(sql_metaPropertyID);
+			SqlParameter sql_ConnectionDefinitionID = new SqlParameter("@ConnectionDefinitionID", connectionDefinitionNameID);
+			cmd.Parameters.Add(sql_ConnectionDefinitionID);
 		}
 
 
@@ -392,8 +392,8 @@ public partial class StoredProcedures
 		/************************************************/
 		if (type == null) // still Unrecognized type name ( ex. color )
 		{
-			Int32 metaPropertyID = 0;
-			string baseValueType = GetMetaPropertyBaseValueType(virtualTableName, SqlInt32.Null, out metaPropertyID);
+			Int32 connectionDefinitionID = 0;
+			string baseValueType = GetConnectionDefinitionBaseValueType(virtualTableName, SqlInt32.Null, out connectionDefinitionID);
 
 			if (!string.IsNullOrEmpty(baseValueType))
 				type = Type.GetType(string.Format("{0}.{1},{2}", classNamespace, baseValueType, sqlAssembly));
@@ -471,14 +471,14 @@ public partial class StoredProcedures
 
 		return structure;
 	}
-	private static string GetMetaPropertyBaseValueType(string connectionDefinitionName, SqlInt32 accountID, out Int32 connectionDefinitionNameID)
+	private static string GetConnectionDefinitionBaseValueType(string connectionDefinitionName, SqlInt32 accountID, out Int32 connectionDefinitionNameID)
 	{
 
 		string connectionDefinitionBaseValueType = string.Empty;
 
 		connectionDefinitionNameID = 0;
 		StringBuilder cmdSb = new StringBuilder();
-		cmdSb.Append("Select [ID], [BaseValueType] from MetaProperty where ");
+		cmdSb.Append("Select [ID], [BaseValueType] from ConnectionDefinition where ");
 
 		if (!accountID.IsNull)
 			cmdSb.Append(" AccountID = @accountID and ");
