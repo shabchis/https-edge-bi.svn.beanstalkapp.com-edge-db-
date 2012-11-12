@@ -110,9 +110,7 @@
     <Folder Include="CLR" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="SQL\Tables\MeasureType.sql" />
     <Build Include="SQL\Tables\EdgeObject.sql" />
-    <Build Include="SQL\Tables\MetaProperty.sql" />
     <Build Include="SQL\Tables\Account.sql" />
     <Build Include="SQL\Tables\ObjectTracking.sql" />
     <Build Include="SQL\Tables\CreativeComposite.sql" />
@@ -120,12 +118,13 @@
     <Build Include="SQL\Tables\Ad.sql" />
     <Build Include="SQL\Tables\AdTargetMatch.sql" />
     <Build Include="SQL\Tables\GenericTargetMatch.sql" />
-    <Build Include="SQL\Tables\AdTarget.sql" />
     <Build Include="SQL\Tables\Target.sql" />
     <Build Include="SQL\Tables\Creative.sql" />
     <Build Include="SQL\Tables\Channel.sql" />
-    <Build Include="SQL\Tables\MetaValue.sql" />
     <Build Include="SQL\Tables\Measure.sql" />
+    <Build Include="SQL\Tables\AdTargetDefinition.sql" />
+    <Build Include="SQL\Tables\ConnectionDefinition.sql" />
+    <Build Include="SQL\Tables\Connection.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -145,6 +144,7 @@
       <Private>True</Private>
       <IsModelAware>True</IsModelAware>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
     <ProjectReference Include="..\..\..\edge-framework\Eggplant.Entities\trunk\Eggplant.Entities.csproj">
       <Name>Eggplant.Entities</Name>
@@ -152,6 +152,7 @@
       <Private>True</Private>
       <IsModelAware>True</IsModelAware>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
   </ItemGroup>
 </Project>
