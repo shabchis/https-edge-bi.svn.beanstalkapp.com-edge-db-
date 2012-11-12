@@ -47,7 +47,7 @@ public partial class StoredProcedures
 		foreach (var row in NewEnumvalues)
 		{
 			if ( !ExistingEnumValues.ContainsKey(row.Key) || (row.Value != ExistingEnumValues[row.Key] ))
-				throw new Exception (string.Format("mismatch has been found between enum {0} and table. check if enum table exists or new \ changed value",row.Key));
+				throw new Exception (string.Format("mismatch has been found between enum {0} and table. check if enum table exists or new changed value",row.Key));
 		}
 
 	}

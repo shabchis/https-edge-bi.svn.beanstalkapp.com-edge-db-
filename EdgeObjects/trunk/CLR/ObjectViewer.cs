@@ -37,7 +37,7 @@ public partial class StoredProcedures
 						}
 				}
 
-				sb.Append("(SELECT distinct [Name] From MetaProperty where AccountID in(@accountID,-1))");
+				sb.Append("(SELECT distinct [Name] From ConnectionDefinition where AccountID in(@accountID,-1))");
 				SqlCommand cmd = new SqlCommand(sb.ToString());
 				SqlParameter account = new SqlParameter("@accountID", accountID);
 
@@ -408,9 +408,9 @@ public partial class StoredProcedures
 		if (member.DeclaringType != typeof(EdgeObject) && !member.DeclaringType.IsSubclassOf(typeof(EdgeObject)))
 			return false;
 
-		if (member.Name == "MetaProperties") return false;
+		if (member.Name == "ConnectionDefinition") return false;
 		else if (member.MemberType == MemberTypes.Constructor || member.MemberType == MemberTypes.Method
-				|| member.Name == "MetaProperty")
+				|| member.Name == "ConnectionDefinition")
 			return false;
 		else
 			return true;
@@ -471,27 +471,27 @@ public partial class StoredProcedures
 
 		return structure;
 	}
-	private static string GetMetaPropertyBaseValueType(string metaPropertyName, SqlInt32 accountID, out Int32 metaPropertyID)
+	private static string GetMetaPropertyBaseValueType(string connectionDefinitionName, SqlInt32 accountID, out Int32 connectionDefinitionNameID)
 	{
 
-		string metaPropertyBaseValueType = string.Empty;
+		string connectionDefinitionBaseValueType = string.Empty;
 
-		metaPropertyID = 0;
+		connectionDefinitionNameID = 0;
 		StringBuilder cmdSb = new StringBuilder();
 		cmdSb.Append("Select [ID], [BaseValueType] from MetaProperty where ");
 
 		if (!accountID.IsNull)
 			cmdSb.Append(" AccountID = @accountID and ");
 
-		cmdSb.Append(" Name = @metaPropertyName");
+		cmdSb.Append(" Name = @connectionDefinitionName");
 
 		SqlCommand cmd = new SqlCommand(cmdSb.ToString());
 
 		SqlParameter sql_account = new SqlParameter("@accountID", accountID);
-		SqlParameter sql_metaPropertyName = new SqlParameter("@metaPropertyName", metaPropertyName);
+		SqlParameter sql_connectionDefinitionName = new SqlParameter("@connectionDefinitionName", connectionDefinitionName);
 
 		cmd.Parameters.Add(sql_account);
-		cmd.Parameters.Add(sql_metaPropertyName);
+		cmd.Parameters.Add(sql_connectionDefinitionName);
 
 		try
 		{
@@ -504,8 +504,8 @@ public partial class StoredProcedures
 				{
 					if (reader.Read())
 					{
-						metaPropertyBaseValueType = reader[1].ToString();
-						metaPropertyID = Convert.ToInt32(reader[0]);
+						connectionDefinitionBaseValueType = reader[1].ToString();
+						connectionDefinitionNameID = Convert.ToInt32(reader[0]);
 					}
 				}
 			}
@@ -515,6 +515,6 @@ public partial class StoredProcedures
 			throw new Exception("Could not get table data", e);
 		}
 
-		return metaPropertyBaseValueType;
+		return connectionDefinitionBaseValueType;
 	}
 }

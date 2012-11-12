@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="CLR\ObjectViewer.cs" />
     <Compile Include="CLR\EnumTables.cs" />
+    <Compile Include="CLR\DummyMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\edge-framework\Edge.Data.Objects\trunk\Edge.Data.Objects.csproj">
