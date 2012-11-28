@@ -23,26 +23,72 @@ public partial class StoredProcedures
 			using (SqlConnection conn = new SqlConnection("context connection=true"))
 			{
 				conn.Open();
-
 				StringBuilder sb = new StringBuilder();
+				
+				DummyMapper mapper = new DummyMapper();
 
 				foreach (Type type in typeof(Creative).Assembly.GetTypes())
 				{
-					if (!type.Equals(typeof(Segment)))
-						if (type.IsSubclassOf(typeof(EdgeObject)) && !type.IsAbstract)
+					if (!type.Equals(typeof(Segment)) && !type.IsAbstract)
+					{
+						
+
+						if (type.IsSubclassOf(typeof(EdgeObject)))
 						{
+							StringBuilder select = new StringBuilder();
+							string from = string.Empty;
+							StringBuilder where = new StringBuilder();
+
+							//Setting Select statement
+							foreach (var field in mapper.GetFields(type))
+							{
+								select.Append(string.Format("[{0}] as [{1}], ", field.Value, field.Key));
+							}
+							select.Remove(select.Length - 1, 1);
+							//setting Where statement
+							where = where.Append(string.Format("AccountID in(-1,{0}) AND ObjectType=''{1}''", accountID, type.Name));
+							from = typeof(EdgeObject).Name;
+
+
 							//Get table name from class attribute
 							string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
-							sb.Append(string.Format("SELECT '{0} ' Union ", tableName));
+							sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName,select,from,where));
 						}
+						
+						//Getting Other tables such as - Channel, Account ...
+						else if (((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))) != null)
+						{
+							
+							StringBuilder select = new StringBuilder();
+							string from = string.Empty;
+							StringBuilder where = new StringBuilder();
+
+							//Setting Select statement
+							foreach (var field in mapper.GetFields(type))
+							{
+								select.Append(string.Format("[{0}] as [{1}], ", field.Value, field.Key));
+							}
+							//setting Where statement
+							where = where.Append(string.Format("AccountID in(-1,{0}) AND ObjectType=''{1}''", accountID, type.Name));
+							string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
+							from = tableName;
+							sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName, select, from, where));
+						}
+					}
 				}
 
-				sb.Append("(SELECT distinct [Name] From ConnectionDefinition where AccountID in(@accountID,-1))");
+				sb.Remove(sb.Length - 6, 6);
+				// SELECT [mappings...] from EdgeObject obj where AccountID = @accountID and int_Field1 = 14
+
+				//int connectionDefinitionNameID;
+				//string baseValueType = GetConnectionDefinitionBaseValueType(type.name, accountID.IsNull == true ? SqlInt32.Null : accountID, out connectionDefinitionNameID);
+
+				//sb.Append("(SELECT distinct [Name] as TableName From ConnectionDefinition where AccountID in(@accountID,-1))");
 				SqlCommand cmd = new SqlCommand(sb.ToString());
-				SqlParameter account = new SqlParameter("@accountID", accountID);
+				//SqlParameter account = new SqlParameter("@accountID", accountID);
 
-				cmd.Parameters.Add(account);
-
+				//cmd.Parameters.Add(account);
+				
 				cmd.Connection = conn;
 				using (SqlDataReader reader = cmd.ExecuteReader())
 				{
@@ -52,7 +98,7 @@ public partial class StoredProcedures
 		}
 		catch (Exception e)
 		{
-			throw new Exception("Could not get table list from data object data base", e);
+			throw new Exception("Could not get table list from data object data base " + e.ToString(), e);
 		}
 	}
 
@@ -245,7 +291,7 @@ public partial class StoredProcedures
 		}
 		catch (Exception e)
 		{
-			throw new Exception("Could not get table data", e);
+			throw new Exception("Could not get table data - GetDataByVirtualTableName " + e.ToString(), e);
 		}
 
 	}
@@ -253,105 +299,279 @@ public partial class StoredProcedures
 	[Microsoft.SqlServer.Server.SqlProcedure]
 	public static void GetTableStructureByName(SqlString virtualTableName)
 	{
-		DummyMapper mapper = new DummyMapper();
-		string classNamespace = typeof(Creative).Namespace;
-
-		Type type = GetTypeByTableName(virtualTableName.Value);
-
-		//Creating Select by Dummy table name
-		StringBuilder col = new StringBuilder();
-		#region Members
-		/*******************************************************/
-
-		Dictionary<string, string> tableStructure = GetSqlTableStructure(type);
-
-		foreach (MemberInfo member in type.GetMembers())
-		{
-			if (IsRelevant(member))
-			{
-				string sql_name = string.Empty;
-				string sql_type = string.Empty;
-				string dotNet_name = string.Empty;
-				string dotNet_type = string.Empty;
-				bool isEnum = false;
-
-				//Verify that memeber is class member of Edge.Data.Object
-				if (((FieldInfo)(member)).FieldType.FullName.Contains(classNamespace))//Memeber is class member from Edge.Data.Object
-				{
-					//Getting Enum Types
-					if ((((FieldInfo)(member)).FieldType).BaseType == typeof(Enum))
-					{
-						sql_name = member.Name;
-						sql_type = tableStructure[mapper.GetMap(type, member.Name)];
-						dotNet_name = member.Name;
-						dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
-						isEnum = true;
-					}
-
-					//Getting Types that are not Enum 
-					if ((((FieldInfo)(member)).FieldType).BaseType != typeof(Enum))
-					{
-						sql_name = member.Name + "ID";
-						sql_type = tableStructure[sql_name];
-						dotNet_name = member.Name + ".ID";
-						dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
-					}
-				}
-
-				else
-				{
-					sql_name = mapper.GetMap(type, member.Name);
-					sql_type = tableStructure[sql_name];
-					dotNet_name = member.Name;
-					dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
-
-
-				}
-
-
-
-				//Creating sql select query
-				col.Append(string.Format(" Select '{0}' as 'SQL Name', '{1}' as 'SQL Type', '{2}' as '.Net Name', '{3}' as '.Net Type', '{4}' as 'IsEnum' Union ",
-												sql_name,
-												sql_type,
-												dotNet_name,
-												dotNet_type,
-												isEnum
-											)
-							  );
-			}
-		}
-
-		//Removing last "union string"
-		col.Remove(col.Length - 6, 6);
-
-		//Creating SQL command 
-		SqlCommand cmd = new SqlCommand(col.ToString());
-
 		try
 		{
-			using (SqlConnection conn = new SqlConnection("Data Source=BI_RND;Initial Catalog=EdgeObjects;Integrated Security=True;Pooling=False"))
-			{
-				conn.Open();
-				cmd.Connection = conn;
+			DummyMapper mapper = new DummyMapper();
+			string classNamespace = typeof(Creative).Namespace;
 
-				using (SqlDataReader reader = cmd.ExecuteReader())
+			Type type = GetTypeByTableName(virtualTableName.Value);
+
+			//Creating Select by Dummy table name
+			StringBuilder col = new StringBuilder();
+			#region Members
+			/*******************************************************/
+
+			Dictionary<string, string> tableStructure = GetSqlTableStructure(type);
+
+			foreach (MemberInfo member in type.GetMembers())
+			{
+				if (IsRelevant(member))
 				{
-					SqlContext.Pipe.Send(reader);
+					string sql_name = string.Empty;
+					string sql_type = string.Empty;
+					string dotNet_name = string.Empty;
+					string dotNet_type = string.Empty;
+					string display = string.Empty;
+					bool isEnum = false;
+
+					string memberNamespace = string.Empty;
+					MemberTypes memberType = member.MemberType;
+					//Get MemberName
+					if (member.MemberType.Equals(MemberTypes.Field))
+						memberNamespace = ((FieldInfo)(member)).FieldType.Namespace;
+					else
+						memberNamespace = ((PropertyInfo)(member)).PropertyType.Namespace;
+
+					//Verify that memeber is class member of Edge.Data.Object
+					if (memberNamespace == typeof(EdgeObject).Namespace || memberNamespace.StartsWith(classNamespace + "."))//Memeber is class member from Edge.Data.Object
+					{
+						//Getting Enum Types
+						if ((((FieldInfo)(member)).FieldType).BaseType == typeof(Enum))
+						{
+							sql_name = member.Name;
+							sql_type = tableStructure[mapper.GetMap(type, member.Name)];
+							dotNet_name = member.Name;
+							//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+							dotNet_type = member.ReflectedType.Name;
+							display = string.Format("{0} {1}", dotNet_name, sql_type);
+							isEnum = true;
+						}
+
+						//else if (member.MemberType.Equals(MemberTypes.Field)) //ID
+						//{
+						//    sql_name = member.Name + "ID";
+						//    dotNet_name = member.Name + ".ID";
+						//    sql_type = tableStructure[sql_name];
+						//    isEnum = false;
+						//}
+						//else //GK
+						//{
+						//    sql_name = member.Name + "GK";
+						//    dotNet_name = member.Name + ".GK";
+						//    sql_type = tableStructure[sql_name];
+						//    isEnum = false;
+						//}
+
+						//dotNet_type = member.ReflectedType.Name;
+						//display = string.Format("{0} {1}", sql_name, sql_type);
+
+
+						//Getting Types that are not Enum  but member of Edge.Data.Object
+						if ((((FieldInfo)(member)).FieldType).BaseType != typeof(Enum))
+						{
+							sql_name = member.Name + "ID";
+							dotNet_name = member.Name + ".ID";
+							if (!tableStructure.TryGetValue(sql_name, out sql_type))
+							{
+								sql_name = member.Name + "GK";
+								dotNet_name = member.Name + ".GK";
+								sql_type = tableStructure[sql_name];
+							}
+							//sql_type = tableStructure.TryGetValue(sql_name);
+
+							//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+							dotNet_type = member.ReflectedType.Name;
+							display = string.Format("{0} {1}", sql_name, sql_type);
+						}
+
+
+					}
+
+					else
+					{//Incase that memeber is not class member of Edge.Data.Object for ex. Budget
+						sql_name = mapper.GetMap(type, member.Name);
+						sql_type = tableStructure[sql_name];
+						dotNet_name = member.Name;
+						//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+						dotNet_type = member.ReflectedType.Name;
+						display = string.Format("{0} {1}", dotNet_name, sql_type);
+					}
+
+					//Creating sql select query
+					if (!string.IsNullOrEmpty(sql_name))
+						col.Append(string.Format(" Select '{0}' as 'SQL Name', '{1}' as 'SQL Type', '{2}' as '.Net Name', '{3}' as '.Net Type', '{4}' as 'Display Name', '{5}' as 'IsEnum' Union ",
+														sql_name,
+														sql_type,
+														dotNet_name,
+														dotNet_type,
+														display,
+														isEnum
+													)
+									  );
 				}
 			}
+
+			if (col.Length > 0)
+			{
+				//Removing last "union string"
+				col.Remove(col.Length - 6, 6);
+
+				//Creating SQL command 
+				SqlCommand cmd = new SqlCommand(col.ToString());
+
+				try
+				{
+					using (SqlConnection conn = new SqlConnection("context connection=true"))
+					{
+						conn.Open();
+						cmd.Connection = conn;
+
+						using (SqlDataReader reader = cmd.ExecuteReader())
+						{
+							SqlContext.Pipe.Send(reader);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception("Could not get table data - GetTableStructureByName() " + e.ToString(), e);
+				}
+			}
+
+			/****************************************************************/
+
+			#endregion
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			throw new Exception("Could not get table data", e);
+			SqlContext.Pipe.Send(ex.Message);
 		}
-		/****************************************************************/
-
-		#endregion
-
 	}
 
+	[Microsoft.SqlServer.Server.SqlProcedure]
+	public static void GetTableStructureByName_DisplayOnly(SqlString virtualTableName)
+	{
+		try
+		{
+			DummyMapper mapper = new DummyMapper();
+			string classNamespace = typeof(Creative).Namespace;
 
+			Type type = GetTypeByTableName(virtualTableName.Value);
+
+			//Creating Select by Dummy table name
+			StringBuilder col = new StringBuilder();
+			#region Members
+			/*******************************************************/
+
+			Dictionary<string, string> tableStructure = GetSqlTableStructure(type);
+
+			foreach (MemberInfo member in type.GetMembers())
+			{
+				if (IsRelevant(member))
+				{
+					string sql_name = string.Empty;
+					string sql_type = string.Empty;
+					string dotNet_name = string.Empty;
+					string dotNet_type = string.Empty;
+					string display = string.Empty;
+					bool isEnum = false;
+
+					string memberNamespace = string.Empty;
+					MemberTypes memberType = member.MemberType;
+					//Get MemberName
+					if (member.MemberType.Equals(MemberTypes.Field))
+						memberNamespace = ((FieldInfo)(member)).FieldType.Namespace;
+					else
+						memberNamespace = ((PropertyInfo)(member)).PropertyType.Namespace;
+
+					//Verify that memeber is class member of Edge.Data.Object
+					if (memberNamespace == typeof(EdgeObject).Namespace || memberNamespace.StartsWith(classNamespace + "."))//Memeber is class member from Edge.Data.Object
+					{
+						//Getting Enum Types
+						if ((((FieldInfo)(member)).FieldType).BaseType == typeof(Enum))
+						{
+							sql_name = member.Name;
+							sql_type = tableStructure[mapper.GetMap(type, member.Name)];
+							dotNet_name = member.Name;
+							//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+							dotNet_type = member.ReflectedType.Name;
+							display = string.Format("{0} {1}", dotNet_name, sql_type);
+							isEnum = true;
+						}
+
+						//Getting Types that are not Enum  but member of Edge.Data.Object
+						if ((((FieldInfo)(member)).FieldType).BaseType != typeof(Enum))
+						{
+							sql_name = member.Name + "ID";
+							dotNet_name = member.Name + ".ID";
+							if (!tableStructure.TryGetValue(sql_name, out sql_type))
+							{
+								sql_name = member.Name + "GK";
+								dotNet_name = member.Name + ".GK";
+								sql_type = tableStructure[sql_name];
+							}
+							//sql_type = tableStructure.TryGetValue(sql_name);
+
+							//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+							dotNet_type = member.ReflectedType.Name;
+							display = string.Format("{0} {1}", sql_name, sql_type);
+						}
+
+
+					}
+
+					else
+					{//Incase that memeber is not class member of Edge.Data.Object for ex. Budget
+						sql_name = mapper.GetMap(type, member.Name);
+						sql_type = tableStructure[sql_name];
+						dotNet_name = member.Name;
+						//dotNet_type = ((MemberInfo)(((FieldInfo)(member)).FieldType)).Name;
+						dotNet_type = member.ReflectedType.Name;
+						display = string.Format("{0} {1}", dotNet_name, sql_type);
+					}
+
+					//Creating sql select query
+					if (!string.IsNullOrEmpty(sql_name))
+						col.Append(string.Format(" Select '{0}' as 'Display Name' Union ", display));
+				}
+			}
+
+			if (col.Length > 0)
+			{
+				//Removing last "union string"
+				col.Remove(col.Length - 6, 6);
+
+				//Creating SQL command 
+				SqlCommand cmd = new SqlCommand(col.ToString());
+
+				try
+				{
+					using (SqlConnection conn = new SqlConnection("context connection=true"))
+					{
+						conn.Open();
+						cmd.Connection = conn;
+
+						using (SqlDataReader reader = cmd.ExecuteReader())
+						{
+							SqlContext.Pipe.Send(reader);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception("Could not get table data - GetTableStructureByName_DisplayOnly " + e.ToString(), e);
+				}
+			}
+
+			/****************************************************************/
+
+			#endregion
+		}
+		catch (Exception ex)
+		{
+			SqlContext.Pipe.Send(ex.Message);
+		}
+	}
 
 
 	private static Type GetTypeByTableName(string virtualTableName)
@@ -405,13 +625,15 @@ public partial class StoredProcedures
 	}
 	private static bool IsRelevant(MemberInfo member)
 	{
+		if (member.MemberType != MemberTypes.Field && member.MemberType != MemberTypes.Property)
+			return false;
+
 		if (member.DeclaringType != typeof(EdgeObject) && !member.DeclaringType.IsSubclassOf(typeof(EdgeObject)))
 			return false;
 
-		if (member.Name == "ConnectionDefinition") return false;
-		else if (member.MemberType == MemberTypes.Constructor || member.MemberType == MemberTypes.Method
-				|| member.Name == "ConnectionDefinition")
-			return false;
+		if (member.Name == "Connections" || member.Name == "ConnectionDefinition" || member.Name == "HasChildsObjects") return false;
+		//else if (member.MemberType == MemberTypes.Constructor || member.MemberType == MemberTypes.Method)
+		//    return false;
 		else
 			return true;
 	}
@@ -420,7 +642,10 @@ public partial class StoredProcedures
 		Dictionary<string, string> structure = new Dictionary<string, string>();
 		string dbtableName = string.Empty;
 
-		if (type != null)
+		if (type.Equals(typeof(Ad)))
+			dbtableName = typeof(Ad).Name;
+
+		else if (type != null)
 		{
 			//Check if subclass of creative / Target / EdgeObject
 			if (type.IsSubclassOf(typeof(Creative)))
@@ -443,14 +668,15 @@ public partial class StoredProcedures
 			dbtableName = typeof(EdgeObject).Name;
 		}
 
-		SqlCommand cmd = new SqlCommand("select COLUMN_NAME , DATA_TYPE from information_schema.COLUMNS where TABLE_NAME = @tableName");
+
+		SqlCommand cmd = new SqlCommand("select COLUMN_NAME , DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION, NUMERIC_SCALE, IS_NULLABLE from information_schema.COLUMNS where TABLE_NAME = @tableName");
 		SqlParameter tableName = new SqlParameter("@tableName", dbtableName);
 
 		cmd.Parameters.Add(tableName);
 
 		try
 		{
-			using (SqlConnection conn = new SqlConnection(CONN_STRING))
+			using (SqlConnection conn = new SqlConnection("context connection=true"))
 			{
 				conn.Open();
 				cmd.Connection = conn;
@@ -459,14 +685,45 @@ public partial class StoredProcedures
 				{
 					while (reader.Read())
 					{
-						structure.Add(reader[0].ToString(), reader[1].ToString());
+						string TYPE = reader[1].ToString();
+						string CHARACTER_MAXIMUM_LENGTH = reader[2] == DBNull.Value ? string.Empty : reader[2].ToString();
+						string NUMERIC_PRECISION = reader[3] == DBNull.Value ? string.Empty : reader[3].ToString();
+						string NUMERIC_SCALE = reader[4] == DBNull.Value ? string.Empty : reader[4].ToString();
+						string IS_NULLABLE = reader[5].ToString().Equals("YES") ? "NULL" : "NOT NULL";
+
+						List<string> properties = new List<string>();
+						if (!String.IsNullOrEmpty(CHARACTER_MAXIMUM_LENGTH))
+							properties.Add(CHARACTER_MAXIMUM_LENGTH);
+
+						if (TYPE.Equals("decimal"))
+						{
+							properties.Add(NUMERIC_PRECISION);
+							properties.Add(NUMERIC_SCALE);
+						}
+
+
+						StringBuilder sbType = new StringBuilder();
+						sbType.Append(TYPE);
+						if (properties.Count > 0)
+						{
+							sbType.Append("(");
+							foreach (string prop in properties)
+							{
+								sbType.Append(prop + ",");
+							}
+							sbType.Remove(sbType.Length - 1, 1);
+							sbType.Append(")");
+						}
+
+						sbType.Append(" " + IS_NULLABLE);
+						structure.Add(reader[0].ToString(), sbType.ToString());
 					}
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			throw new Exception("Could not get table data", e);
+			throw new Exception("Could not get table data : GetSqlTableStructure()" + e.ToString(), e);
 		}
 
 		return structure;
@@ -495,7 +752,7 @@ public partial class StoredProcedures
 
 		try
 		{
-			using (SqlConnection conn = new SqlConnection(CONN_STRING))
+			using (SqlConnection conn = new SqlConnection("context connection=true"))
 			{
 				conn.Open();
 				cmd.Connection = conn;
@@ -512,7 +769,7 @@ public partial class StoredProcedures
 		}
 		catch (Exception e)
 		{
-			throw new Exception("Could not get table data", e);
+			throw new Exception("Could not get table data - GetConnectionDefinitionBaseValueType() " + e.ToString(), e);
 		}
 
 		return connectionDefinitionBaseValueType;
