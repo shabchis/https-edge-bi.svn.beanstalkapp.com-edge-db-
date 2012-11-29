@@ -2,7 +2,7 @@
     [GK]            BIGINT          NOT NULL,
     [ObjectType]    NVARCHAR (50)   NOT NULL,
     [AccountID]     INT             NOT NULL,
-    [OriginalID]    NVARCHAR (50)   NULL,
+    [OriginalID]    NVARCHAR (100)  NULL,
     [Name]          NVARCHAR (1000) NULL,
     [Status]        INT             NULL,
     [int_Field1]    INT             NULL,
@@ -16,6 +16,12 @@
     CONSTRAINT [PK_Creative_1] PRIMARY KEY CLUSTERED ([GK] ASC),
     CONSTRAINT [FK_Creative_Account] FOREIGN KEY ([AccountID]) REFERENCES [dbo].[Account] ([ID])
 );
+
+
+GO
+ALTER TABLE [dbo].[Creative] NOCHECK CONSTRAINT [FK_Creative_Account];
+
+
 
 
 GO

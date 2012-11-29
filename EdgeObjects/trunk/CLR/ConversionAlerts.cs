@@ -57,7 +57,7 @@ public partial class StoredProcedures
 	{
 		returnMsg = string.Empty;
 
-		string CONNECTION = "Data Source=BI_RND;Initial Catalog=testdb;Integrated Security=False;Pooling=False;";
+		//string CONNECTION = "Data Source=BI_RND;Initial Catalog=testdb;Integrated Security=False;Pooling=False;";
 		string Edge_conn = "Data Source=79.125.11.74;Initial Catalog=Seperia;Integrated Security=false;User ID=SeperiaServices;PWD=Asada2011!";
 
 		string fromDate =ToDay.AddDays((Double)(-1 *Period)).ToString("yyyyMMdd");

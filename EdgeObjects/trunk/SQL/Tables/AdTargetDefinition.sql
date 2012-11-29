@@ -3,7 +3,7 @@
     [AdGK]           BIGINT          NOT NULL,
     [TargetGK]       BIGINT          NULL,
     [AccountID]      INT             NOT NULL,
-    [OriginalID]     NVARCHAR (50)   NULL,
+    [OriginalID]     NVARCHAR (100)  NULL,
     [Name]           NVARCHAR (50)   NULL,
     [Status]         INT             NULL,
     [DestinationUrl] NVARCHAR (1000) NULL,
@@ -19,4 +19,6 @@
     CONSTRAINT [FK_AdTargetDefinition_Ad] FOREIGN KEY ([AdGK]) REFERENCES [dbo].[Ad] ([GK]),
     CONSTRAINT [FK_AdTargetDefinition_Target] FOREIGN KEY ([TargetGK]) REFERENCES [dbo].[Target] ([GK])
 );
+
+
 

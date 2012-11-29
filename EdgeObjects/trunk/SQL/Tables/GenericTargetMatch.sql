@@ -4,7 +4,7 @@
     [ParentTargetMatchGK] BIGINT         NULL,
     [ObjectType]          NVARCHAR (50)  NOT NULL,
     [AccountID]           INT            NOT NULL,
-    [OriginalID]          NVARCHAR (50)  NULL,
+    [OriginalID]          NVARCHAR (100) NULL,
     [Name]                NVARCHAR (50)  NULL,
     [Status]              INT            NOT NULL,
     [DestinationUrl]      NVARCHAR (50)  NULL,
@@ -20,6 +20,12 @@
     CONSTRAINT [FK_GenericTargetMatch_Account] FOREIGN KEY ([AccountID]) REFERENCES [dbo].[Account] ([ID]),
     CONSTRAINT [FK_GenericTargetMatch_Target] FOREIGN KEY ([TargetGK]) REFERENCES [dbo].[Target] ([GK])
 );
+
+
+GO
+ALTER TABLE [dbo].[GenericTargetMatch] NOCHECK CONSTRAINT [FK_GenericTargetMatch_Account];
+
+
 
 
 GO
