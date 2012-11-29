@@ -166,7 +166,7 @@ namespace Edge.Data.Objects
 
 		}
 
-		public string GetMap(Type type, string Name)
+		public string GetSqlTargetMapFieldName(Type type, string Name)
 		{
 			string map;
 
@@ -182,6 +182,7 @@ namespace Edge.Data.Objects
 			}
 			else
 				throw new Exception(string.Format("Could not find mapping for Type/Object {0}", type.Name));
+
 			return map;
 
 		}
