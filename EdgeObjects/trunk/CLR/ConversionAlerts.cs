@@ -11,6 +11,7 @@ using Microsoft.SqlServer.Server;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AnalysisServices.AdomdClient;
 
 public partial class StoredProcedures
 {
@@ -42,6 +43,24 @@ public partial class StoredProcedures
 
 			
 		}
+
+		public campaign(AdomdDataReader mdxReader, string convSqlField)
+		{
+			
+		  
+			SqlContext.Pipe.Send(mdxReader.ToString());
+			SqlContext.Pipe.Send(mdxReader[0].ToString());
+			SqlContext.Pipe.Send(mdxReader[1].ToString());
+			SqlContext.Pipe.Send(mdxReader[2].ToString());
+			SqlContext.Pipe.Send(mdxReader[3].ToString());
+
+			//ID = Convert.ToInt32(mdxReader["[Paid Campaigns Dim].[Campaign Gk]"]);
+			//Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign]"]);
+			//Cost = Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
+			//CPA = mdxReader[string.Format("[Measures].[Cost/{0}]", convSqlField)] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader[string.Format("[Measures].[Cost/{0}]", convSqlField)]);
+
+			
+		}
 		public double GetConvIncludZero()
 		{
 			if (zeroConv) return 0;
@@ -53,7 +72,7 @@ public partial class StoredProcedures
 	}
 
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void ConversionAlerts(Int32 AccountID, Int32 Period, DateTime ToDay, Int32 ChannelID, Int32 threshold, string excludeIds, string convName, string convSqlField, out SqlString returnMsg)
+	public static void ConversionPPCAlerts(Int32 AccountID, Int32 Period, DateTime ToDay, Int32 ChannelID, Int32 threshold, string excludeIds, string convName, string convSqlField, out SqlString returnMsg)
 	{
 		returnMsg = string.Empty;
 
@@ -154,5 +173,56 @@ public partial class StoredProcedures
 		}
 		returnMsg = string.Format("<span style='font-size:9.5pt;font-family:Consolas;color:#A31515'>Worst CPA performance on the following time period : {0} - {1} . Criteria: CPA > 300% AVG CPA </span>", ToDay.AddDays(-1 * Period).ToString("dd/MM/yy"), ToDay.ToString("dd/MM/yy"));
 		
+	}
+
+	[Microsoft.SqlServer.Server.SqlProcedure]
+	public static void ConversionAnalysisAlerts(Int32 AccountID, Int32 Period, DateTime ToDay, Int32 ChannelID, Int32 threshold, string excludeIds, string convName, string convSqlField, out SqlString returnMsg)
+	{
+		returnMsg = string.Empty;
+
+		string admobConnectionString = "Data Source=BI_RND\\MSSQLSERVER2;Database=Seperia_Test";
+		StringBuilder mdxBuilder = new StringBuilder();
+		
+
+		string fromDate = ToDay.AddDays((Double)(-1 * Period)).ToString("yyyyMMdd");
+		string toDate = ToDay.ToString("yyyyMMdd");
+
+		try
+		{
+			string cubeName = "BOEasyForexTest2";
+
+			mdxBuilder.Append("Select {[Measures].[Cost], ");
+			mdxBuilder.Append(string.Format("[Measures].[Cost/{0}],", convSqlField));
+			mdxBuilder.Append(string.Format("[Measures].[{0}s]{1} on 0,", convSqlField,"}"));
+			mdxBuilder.Append(" NonEmpty([Getways Dim].[Gateways].[Campaign].members) on 1 ");
+			mdxBuilder.Append(string.Format("From {0} ", cubeName));
+			mdxBuilder.Append(string.Format("where ( [Accounts Dim].[Accounts].[Account].&[{0}], ", AccountID.ToString()));
+			mdxBuilder.Append(string.Format("[Channels Dim].[Channels].[Channel].&[{0}], ", ChannelID.ToString()));
+			mdxBuilder.Append(string.Format("[Time Dim].[Time Dim].[Day].&[{0}]:[Time Dim].[Time Dim].[Day].&[{1}])", fromDate, toDate));
+
+			List<campaign> campaigns = new List<campaign>();
+
+			using (AdomdConnection adomdConn = new AdomdConnection(admobConnectionString))
+			{
+				
+				adomdConn.Open();
+
+				AdomdCommand mdxCmd = new AdomdCommand(mdxBuilder.ToString(), adomdConn);
+				using (AdomdDataReader mdxReader = mdxCmd.ExecuteReader(CommandBehavior.CloseConnection))
+				{
+					while (mdxReader.Read())
+					{
+						campaigns.Add(new campaign(mdxReader, convSqlField));
+					}
+				}
+			}
+
+		}
+		catch (Exception e)
+		{
+			throw new Exception(".Net Exception : " + e.ToString(), e);
+		}
+		returnMsg = string.Format("<span style='font-size:9.5pt;font-family:Consolas;color:#A31515'>Worst CPA performance on the following time period : {0} - {1} . Criteria: CPA > 300% AVG CPA </span>", ToDay.AddDays(-1 * Period).ToString("dd/MM/yy"), ToDay.ToString("dd/MM/yy"));
+
 	}
 }

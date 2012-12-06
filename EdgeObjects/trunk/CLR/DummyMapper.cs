@@ -147,7 +147,8 @@ namespace Edge.Data.Objects
 
 			Ad = new Dictionary<string, string>()
 				{
-					{"DestinationUrl","DestinationUrl"}
+					{"DestinationUrl","DestinationUrl"},
+					{"CreativeGK","CreativeGK"}
 				};
 				Mapping.Add(typeof(Edge.Data.Objects.Ad), Ad);
 

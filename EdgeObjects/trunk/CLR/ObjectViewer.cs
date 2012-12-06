@@ -34,108 +34,142 @@ public partial class StoredProcedures
 	{
 		try
 		{
-			
-				StringBuilder sb = new StringBuilder();
 
-				DummyMapper mapper = new DummyMapper();
+			StringBuilder sb = new StringBuilder();
 
-				foreach (Type type in typeof(Creative).Assembly.GetTypes())
+			DummyMapper mapper = new DummyMapper();
+
+			foreach (Type type in typeof(Creative).Assembly.GetTypes())
+			{
+				if (!type.Equals(typeof(Segment)) && !type.IsAbstract)
 				{
-					if (!type.Equals(typeof(Segment)) && !type.IsAbstract)
+
+
+					if (type.IsSubclassOf(typeof(EdgeObject)))
 					{
+						StringBuilder select = new StringBuilder();
+						string from = string.Empty;
+						StringBuilder where = new StringBuilder();
 
-
-						if (type.IsSubclassOf(typeof(EdgeObject)))
+						//Setting Select statement
+						foreach (var field in mapper.GetFields(type))
 						{
-							StringBuilder select = new StringBuilder();
-							string from = string.Empty;
-							StringBuilder where = new StringBuilder();
-
-							//Setting Select statement
-							foreach (var field in mapper.GetFields(type))
-							{
-								select.Append(string.Format("[{0}] as [{1}], ", field.Value, field.Key));
-							}
-							select.Remove(select.Length - 1, 1);
-
-							//Get table name from class attribute
-							string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
-							where = where.Append(string.Format("AccountID ={0} AND ObjectType=''{1}''", accountID, type.Name));
-							
-							//setting From statement
-							from = GetTableSource(type);
-
-							sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName, select, from, where));
+							select.Append(string.Format("[{0}] as [{1}],", field.Value, field.Key));
 						}
+						select.Remove(select.Length - 1, 1);
 
-						//Getting Other tables such as - Channel, Account ...
-						else if (((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))) != null)
+						//Get table name from class attribute
+						string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
+						where.Append(string.Format("AccountID ={0} ", accountID, type.Name));
+
+						if (channelID.Value != null)
 						{
-							StringBuilder select = new StringBuilder();
-							string from = string.Empty;
-							StringBuilder where = new StringBuilder();
-
-							//Setting Select statement
-							foreach (var field in mapper.GetFields(type))
-							{
-								select.Append(string.Format("[{0}] as [{1}], ", field.Value, field.Key));
-							}
-							//setting Where statement
-							where = where.Append(string.Format("AccountID in(-1,{0}) AND ObjectType=''{1}''", accountID, type.Name));
-							string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
-							from = tableName;
-							sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName, select, from, where));
+							where.Append(string.Format(" AND ChannelID =''{0}'' ", channelID.Value));
 						}
+						else
+							where.Append(" AND ChannelID != NULL ");
+
+						if (type != typeof(Ad))
+							where.Append(string.Format(" AND ObjectType=''{0}''", type.Name));
+
+						//setting From statement
+						from = GetTableSource(type);
+
+						sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName, select, from, where));
+					}
+
+					//Getting Other tables such as - Channel, Account ...
+					else if (((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))) != null)
+					{
+						StringBuilder select = new StringBuilder();
+						string from = string.Empty;
+						StringBuilder where = new StringBuilder();
+
+						//Setting Select statement
+						foreach (var field in mapper.GetFields(type))
+						{
+							select.Append(string.Format("[{0}] as [{1}],", field.Value, field.Key));
+						}
+						select.Remove(select.Length - 1, 1);
+
+						//setting Where statement
+						where = where.Append(string.Format("AccountID in (-1,{0})", accountID, type.Name));
+						//						where = where.Append(string.Format("AccountID in (-1,{0}) AND ObjectType=''{1}''", accountID, type.Name));
+						string tableName = ((TableInfoAttribute)Attribute.GetCustomAttribute(type, typeof(TableInfoAttribute))).Name;
+						from = tableName;
+						sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", tableName, select, from, where));
 					}
 				}
+			}
 
 
-				//Getting data from connection definition table
-				
-				List<ConnectionDef> accountConnections = GetConnections(accountID.Value, channelID.Value);
-				foreach (ConnectionDef connection in accountConnections)
+			//Getting data from connection definition table
+
+			List<ConnectionDef> accountConnections = GetConnections(accountID.Value, channelID.Value);
+			foreach (ConnectionDef connection in accountConnections)
+			{
+				StringBuilder select = new StringBuilder();
+				string fromTable = string.Empty;
+				StringBuilder where = new StringBuilder();
+
+				Type type = GetTypeByTableName(connection.BaseValue);
+
+				//Setting Select statement
+				foreach (var field in mapper.GetFields(type))
 				{
-					StringBuilder select = new StringBuilder();
-					string fromTable = string.Empty;
-					StringBuilder where = new StringBuilder();
+					select.Append(string.Format("[{0}] as [{1}],", field.Value, field.Key));
+				}
+				select.Remove(select.Length - 1, 1);
 
-					Type type = GetTypeByTableName(connection.BaseValue);
-					
-					//Setting Select statement
-					foreach (var field in mapper.GetFields(type))
+				//setting Where statement
+
+				if (type.IsSubclassOf(typeof(Segment)))
+				{
+					string ConnectionDefinitionIDField = mapper.GetSqlTargetMapFieldName(type, "ConnectionDefinitionID");
+					where = where.Append(string.Format("AccountID in (-1,{0}) }", accountID));
+
+					if (channelID.Value != null)
 					{
-						select.Append(string.Format("[{0}] as [{1}], ", field.Value, field.Key));
-					}
-
-					//setting Where statement
-
-					if (type.IsSubclassOf(typeof(Segment)))
-					{
-						string ConnectionDefinitionIDField = mapper.GetSqlTargetMapFieldName(type, "ConnectionDefinitionID");
-						where = where.Append(string.Format("AccountID in(-1,{0}) AND ObjectType=''{1}'' AND {2}={3}", accountID, typeof(Segment).Name, ConnectionDefinitionIDField, connection.ID));
+						where.Append(string.Format(" AND ChannelID =''{0}'' ", channelID.Value));
 					}
 					else
-					{
-						where = where.Append(string.Format("AccountID ={0} AND ObjectType=''{1}''", accountID, type.Name));
-					}
+						where.Append(" AND ChannelID != NULL ");
 
-					fromTable = GetTableSource(type);
-					sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", connection.Name, select, fromTable, where));
-					
+					where = where.Append(string.Format(" AND ObjectType =''{0}'' AND {1} = {2}", typeof(Segment).Name, ConnectionDefinitionIDField, connection.ID));
+
 				}
-				sb.Remove(sb.Length - 6, 6);
-
-				SqlCommand cmd = new SqlCommand(sb.ToString());
-				using (SqlConnection conn = new SqlConnection("context connection=true"))
+				else
 				{
-					conn.Open();
-					cmd.Connection = conn;
-					using (SqlDataReader reader = cmd.ExecuteReader())
+					where = where.Append(string.Format("AccountID = {0} ", accountID));
+
+					if (channelID.Value != null)
 					{
-						SqlContext.Pipe.Send(reader);
+						where.Append(string.Format(" AND ChannelID = ''{0}'' ", channelID.Value));
 					}
+					else
+						where.Append(" AND ChannelID != NULL ");
+
+					where = where.Append(string.Format(" AND ObjectType = ''{0}''", type.Name));
+
 				}
-			
+
+				fromTable = GetTableSource(type);
+				sb.Append(string.Format("SELECT '{0}' as TableName,'{1}' as [select],'{2}' as [From], '{3}' as [Where] Union ", connection.Name, select, fromTable, where));
+
+			}
+			sb.Remove(sb.Length - 6, 6);
+
+			SqlCommand cmd = new SqlCommand(sb.ToString());
+			using (SqlConnection conn = new SqlConnection("context connection=true"))
+			{
+				conn.Open();
+				cmd.Connection = conn;
+				using (SqlDataReader reader = cmd.ExecuteReader())
+				{
+					SqlContext.Pipe.Send(reader);
+				}
+			}
+
 		}
 
 		catch (Exception e)
@@ -155,18 +189,29 @@ public partial class StoredProcedures
 		if (accountID != null)
 			cmdSb.Append(" AccountID = @accountID and ");
 
-		if (accountID != null)
+		if (ChannelID != null)
 		{
 			cmdSb.Append(" ChannelID = @channelID");
 		}
+		else
+			cmdSb.Append(" ChannelID != null");
 
 		SqlCommand cmd = new SqlCommand(cmdSb.ToString());
 
-		SqlParameter sql_account = new SqlParameter("@accountID", accountID);
-		SqlParameter sql_ChannelID = new SqlParameter("@channelID", ChannelID);
+		if (accountID != null)
+		{
+			SqlParameter sql_account = new SqlParameter("@accountID", accountID);
+			cmd.Parameters.Add(sql_account);
+		}
 
-		cmd.Parameters.Add(sql_account);
-		cmd.Parameters.Add(sql_ChannelID);
+		if (ChannelID != null)
+		{
+			SqlParameter sql_ChannelID = new SqlParameter("@channelID", ChannelID);
+			cmd.Parameters.Add(sql_ChannelID);
+		}
+
+
+
 
 		try
 		{
