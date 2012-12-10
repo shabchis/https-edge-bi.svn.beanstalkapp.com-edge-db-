@@ -215,7 +215,7 @@ public partial class StoredProcedures
 
 		try
 		{
-			using (SqlConnection conn = new SqlConnection(CONN_STRING))
+			using (SqlConnection conn = new SqlConnection("context connection=true"))
 			{
 				conn.Open();
 				cmd.Connection = conn;
