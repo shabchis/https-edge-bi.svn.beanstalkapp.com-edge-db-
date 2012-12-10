@@ -46,19 +46,28 @@ public partial class StoredProcedures
 
 		public campaign(AdomdDataReader mdxReader, string convSqlField)
 		{
-			
-		  
-			SqlContext.Pipe.Send(mdxReader.ToString());
-			SqlContext.Pipe.Send(mdxReader[0].ToString());
-			SqlContext.Pipe.Send(mdxReader[1].ToString());
-			SqlContext.Pipe.Send(mdxReader[2].ToString());
-			SqlContext.Pipe.Send(mdxReader[3].ToString());
 
+			//SqlContext.Pipe.Send(string.Format("Fields count = {0}", mdxReader.FieldCount));
+			//for (int i = 0; i < mdxReader.FieldCount; i++)
+			//{
+			//    SqlContext.Pipe.Send(string.Format("{0}=========================================", i));
+			//    //SqlContext.Pipe.Send(mdxReader[i] == DBNull.Value ? "0" : mdxReader[i].ToString());
+			//    SqlContext.Pipe.Send(mdxReader.GetName(i));
+			//}
+
+			//[Getways Dim].[Gateways].[Campaign]
 			//ID = Convert.ToInt32(mdxReader["[Paid Campaigns Dim].[Campaign Gk]"]);
-			//Name = Convert.ToString(mdxReader["[Getways Dim].[Gateways].[Campaign]"]);
-			//Cost = Convert.ToDouble(mdxReader["[Measures].[Cost]"]);
-			//CPA = mdxReader[string.Format("[Measures].[Cost/{0}]", convSqlField)] == DBNull.Value ? 0 : Convert.ToDouble(mdxReader[string.Format("[Measures].[Cost/{0}]", convSqlField)]);
+			Name = Convert.ToString(mdxReader[1]);
+			SqlContext.Pipe.Send(string.Format("Name = {0}", Name));
 
+			Cost = Convert.ToDouble(mdxReader[2]);
+			SqlContext.Pipe.Send(string.Format("Cost = {0}", Cost));
+
+			CPA = Convert.ToDouble(mdxReader[3]);
+			SqlContext.Pipe.Send(string.Format("CPA = {0}", CPA));
+
+			Conv = Convert.ToDouble(mdxReader[4]);
+			SqlContext.Pipe.Send(string.Format("Conv = {0}", Conv));
 			
 		}
 		public double GetConvIncludZero()
@@ -72,7 +81,7 @@ public partial class StoredProcedures
 	}
 
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void ConversionPPCAlerts(Int32 AccountID, Int32 Period, DateTime ToDay, Int32 ChannelID, Int32 threshold, string excludeIds, string convName, string convSqlField, out SqlString returnMsg)
+	public static void ConversionPPCAlerts(Int32 AccountID, Int32 Period, DateTime ToDay, Int32 ChannelID, Int32 threshold, string excludeIds, string convSqlField, out SqlString returnMsg)
 	{
 		returnMsg = string.Empty;
 
@@ -215,6 +224,51 @@ public partial class StoredProcedures
 						campaigns.Add(new campaign(mdxReader, convSqlField));
 					}
 				}
+			}
+
+			if (campaigns.Count > 0)
+			{
+				double totalCost = 0;
+				double totalConv = 0;
+				double avgCpa = 0;
+
+				foreach (campaign camp in campaigns)
+				{
+					totalCost += camp.Cost;
+					totalConv += camp.GetConvIncludZero();
+				}
+
+				avgCpa = totalCost / totalConv;
+				SqlContext.Pipe.Send(string.Format("The AVG CPA is {0}", avgCpa));
+
+				var CPA_Alert = from c in campaigns
+								where c.CPA > threshold * avgCpa
+								select c;
+
+				StringBuilder commandBuilder = new StringBuilder();
+
+				foreach (var item in CPA_Alert)
+				{
+					commandBuilder.Append(string.Format("select '{3}' as CampaignID, '{0}' as 'Campaign' , {1} as 'Cost', {2} as 'Conv' ,{4} as 'CPA' Union "
+						, item.Name, item.Cost, item.Conv, item.ID, item.CPA));
+				}
+
+				if (commandBuilder.Length > 0)
+				{
+					commandBuilder.Remove(commandBuilder.Length - 6, 6);
+					SqlCommand reasultsCmd = new SqlCommand(commandBuilder.ToString());
+					using (SqlConnection conn2 = new SqlConnection("context connection=true"))
+					{
+						conn2.Open();
+						reasultsCmd.Connection = conn2;
+						reasultsCmd.CommandTimeout = 9000;
+						using (SqlDataReader reader = reasultsCmd.ExecuteReader())
+						{
+							SqlContext.Pipe.Send(reader);
+						}
+					}
+				}
+
 			}
 
 		}
