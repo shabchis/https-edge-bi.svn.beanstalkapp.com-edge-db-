@@ -30,7 +30,7 @@ public partial class StoredProcedures
 	static string CONN_STRING = "Data Source=BI_RND;Initial Catalog=EdgeObjects;Integrated Security=True;Pooling=False";
 
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void GetTablesList(SqlInt32 accountID, SqlInt32 channelID)
+	public static void CLR_GetTablesList(SqlInt32 accountID, SqlInt32 channelID)
 	{
 		try
 		{
