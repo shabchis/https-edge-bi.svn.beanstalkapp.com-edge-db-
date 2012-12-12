@@ -3,7 +3,7 @@
 DECLARE	@return_value int
 
 EXEC	@return_value = [dbo].[GetTableStructureByName]
-		@virtualTableName = N'Campaign'
+		@virtualTableName = N'Ad'
 
 SELECT	'Return Value' = @return_value
 

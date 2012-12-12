@@ -201,7 +201,12 @@ namespace Edge.Data.Objects
 					Dictionary<string, string> parentMapping = new Dictionary<string, string>();
 					if (Mapping.TryGetValue(parentType, out parentMapping))
 					{
-						fields = fields.Concat(parentMapping).ToDictionary(k => k.Key, v => v.Value);
+						foreach (var item in parentMapping)
+						{
+							if (!fields.ContainsKey(item.Key))
+								fields.Add(item.Key,item.Value);
+						}
+						//fields = fields.Concat(parentMapping).ToDictionary(k => k.Key, v => v.Value);
 						parentType = parentType.BaseType;
 					}
 					else
