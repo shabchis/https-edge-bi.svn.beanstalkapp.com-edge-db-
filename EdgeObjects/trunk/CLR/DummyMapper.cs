@@ -29,8 +29,8 @@ namespace Edge.Data.Objects
 		private Dictionary<string, string> SingleCreative;
 		private Dictionary<string, string> Creative;
 		private Dictionary<string, string> CompositeCreative;
-		
-		
+
+
 
 		public DummyMapper()
 		{
@@ -38,10 +38,10 @@ namespace Edge.Data.Objects
 
 			Target = new Dictionary<string, string>();
 			Mapping.Add(typeof(Edge.Data.Objects.Target), Target);
-			
+
 			Creative = new Dictionary<string, string>();
 			Mapping.Add(typeof(Edge.Data.Objects.Creative), Creative);
-			
+
 			SingleCreative = new Dictionary<string, string>();
 			Mapping.Add(typeof(Edge.Data.Objects.SingleCreative), SingleCreative);
 
@@ -68,9 +68,10 @@ namespace Edge.Data.Objects
 				{
 					{"OriginalID","OriginalID"},
 					{"Status","Status"},
+					{"Name","string_Field1"},
 					{"ChannelID","ChannelID"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.ChannelSpecificObject), ChannelSpecificObject);
+			Mapping.Add(typeof(Edge.Data.Objects.ChannelSpecificObject), ChannelSpecificObject);
 
 			Channel = new Dictionary<string, string>()
 				{
@@ -78,7 +79,7 @@ namespace Edge.Data.Objects
 					{"Name","Name"},
 					{"ChannelType","ChannelType"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.Channel), Channel);
+			Mapping.Add(typeof(Edge.Data.Objects.Channel), Channel);
 
 			Account = new Dictionary<string, string>()
 				{
@@ -88,41 +89,41 @@ namespace Edge.Data.Objects
 					{"AccountID","AccountID"},
 					{"Status","Status"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.Account), Account);
+			Mapping.Add(typeof(Edge.Data.Objects.Account), Account);
 
 			EdgeObject = new Dictionary<string, string>()
 				{
 					{"GK","GK"},
-					{"Name","Name"},
+					
 					{"AccountID","AccountID"},
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.EdgeObject), EdgeObject);
+			Mapping.Add(typeof(Edge.Data.Objects.EdgeObject), EdgeObject);
 
 			AgeTarget = new Dictionary<string, string>()
 				{
 					{"FromAge","int_Field1"},
 					{"ToAge","int_Field2"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.AgeTarget), AgeTarget);
+			Mapping.Add(typeof(Edge.Data.Objects.AgeTarget), AgeTarget);
 
 			this.GenderTarget = new Dictionary<string, string>()
 				{
 					{"Gender","int_Field1"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.GenderTarget), GenderTarget);
+			Mapping.Add(typeof(Edge.Data.Objects.GenderTarget), GenderTarget);
 
 			KeywordTarget = new Dictionary<string, string>()
 				{
 					{"MatchType","int_Field1"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.KeywordTarget), KeywordTarget);
+			Mapping.Add(typeof(Edge.Data.Objects.KeywordTarget), KeywordTarget);
 
 			PlacementTarget = new Dictionary<string, string>()
 				{
 					{"PlacementType","int_Field1"},
 					{"Value","string_Field1"},
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.PlacementTarget), PlacementTarget);
+			Mapping.Add(typeof(Edge.Data.Objects.PlacementTarget), PlacementTarget);
 
 			TextCreative = new Dictionary<string, string>()
 				{
@@ -130,65 +131,63 @@ namespace Edge.Data.Objects
 					{"Text","string_Field1"},
 					{"Text2","string_Field2"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.TextCreative), TextCreative);
+			Mapping.Add(typeof(Edge.Data.Objects.TextCreative), TextCreative);
 
 			ImageCreative = new Dictionary<string, string>()
 				{
 					{"ImageUrl","string_Field1"},
 					{"ImageSize","string_Field2"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.ImageCreative), ImageCreative);
+			Mapping.Add(typeof(Edge.Data.Objects.ImageCreative), ImageCreative);
 
 			Campaign = new Dictionary<string, string>()
 				{
 					{"Budget","Decimal_Field1"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.Campaign), Campaign);
+			Mapping.Add(typeof(Edge.Data.Objects.Campaign), Campaign);
 
 			Ad = new Dictionary<string, string>()
 				{
 					{"DestinationUrl","DestinationUrl"},
 					{"CreativeGK","CreativeGK"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.Ad), Ad);
+			Mapping.Add(typeof(Edge.Data.Objects.Ad), Ad);
 
 			Segment = new Dictionary<string, string>()
 				{
 					{"ConnectionDefinitionID","int_Field1"},
 					{"Value","string_Field1"}
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.Segment), Segment);
+			Mapping.Add(typeof(Edge.Data.Objects.Segment), Segment);
 
 			LandingPage = new Dictionary<string, string>()
 				{
 					{"LandingPageType","int_Field1"},
 				};
-				Mapping.Add(typeof(Edge.Data.Objects.LandingPage), LandingPage);
+			Mapping.Add(typeof(Edge.Data.Objects.LandingPage), LandingPage);
 
 		}
 
-		public string GetSqlTargetMapFieldName(Type type, string Name)
+		public string GetSqlTargetMapFieldName(Type type, string DotNetName)
 		{
 			string map;
 
 			Dictionary<string, string> mappDic = new Dictionary<string, string>();
-			if (Mapping.TryGetValue(type, out mappDic))
+			mappDic = GetFieldsMapping(type);
+			if (mappDic.Count == 0)
+				throw new Exception(string.Format("Could not find mapping for Type/Object {0}", type.Name));
+			else if (mappDic.TryGetValue(DotNetName, out map))
 			{
-				if (!mappDic.TryGetValue(Name, out map))
-				{
-					map = EdgeObject[Name];
-					if (!EdgeObject.TryGetValue(Name, out map))
-						throw new Exception(string.Format("Could not find mapping to field {0} on Type/Object {1}", Name, type.Name));
-				}
+				return map;
 			}
 			else
-				throw new Exception(string.Format("Could not find mapping for Type/Object {0}", type.Name));
-
-			return map;
+			{
+				throw new Exception(string.Format("Could not find mapping for Type/Object {0} and name {1}", type.Name,DotNetName));
+			}
 
 		}
 
-		internal Dictionary<string, string> GetFields(Type type)
+		internal Dictionary<string, string> GetFieldsMapping(Type type)
 		{
 			Dictionary<string, string> fields = new Dictionary<string, string>();
 			Dictionary<string, string> mappDic = new Dictionary<string, string>();
@@ -200,7 +199,7 @@ namespace Edge.Data.Objects
 				while (parentType != null && (parentType.IsSubclassOf(typeof(EdgeObject)) || parentType == typeof(EdgeObject)))
 				{
 					Dictionary<string, string> parentMapping = new Dictionary<string, string>();
-					if (Mapping.TryGetValue(parentType,out parentMapping))
+					if (Mapping.TryGetValue(parentType, out parentMapping))
 					{
 						fields = fields.Concat(parentMapping).ToDictionary(k => k.Key, v => v.Value);
 						parentType = parentType.BaseType;

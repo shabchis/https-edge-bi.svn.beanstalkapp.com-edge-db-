@@ -108,6 +108,9 @@
     <Folder Include="SQL\Tables" />
     <Folder Include="SQL\Stored Procedures" />
     <Folder Include="CLR" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="SQL\Tables\EdgeObject.sql" />
@@ -125,16 +128,16 @@
     <Build Include="SQL\Tables\AdTargetDefinition.sql" />
     <Build Include="SQL\Tables\ConnectionDefinition.sql" />
     <Build Include="SQL\Tables\Connection.sql" />
+    <Build Include="dbo\Tables\TableQueryFromCLR.sql" />
+    <Build Include="dbo\Tables\TableQuery.sql" />
+    <Build Include="dbo\Tables\CreativeCompositeChild.sql" />
+    <Build Include="Security\NT AUTHORITY_SYSTEM.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.AnalysisServices.AdomdClient">
-      <HintPath>..\..\..\thirdparty\ADOMD\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
-      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLR\ObjectViewer.cs" />
