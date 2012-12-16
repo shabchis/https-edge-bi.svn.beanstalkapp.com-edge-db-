@@ -204,7 +204,7 @@ public partial class StoredProcedures
 	}
 	
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void GetTableStructureByName(SqlString virtualTableName)
+	public static void CLR_GetTableStructure(SqlString virtualTableName)
 	{
 		try
 		{
@@ -287,11 +287,9 @@ public partial class StoredProcedures
 
 					//Creating sql select query
 					if (!string.IsNullOrEmpty(sql_name))
-						col.Append(string.Format(" Select '{0}' as 'SQL Name', '{1}' as 'SQL Type', '{2}' as '.Net Name', '{3}' as '.Net Type', '{4}' as 'Display Name', '{5}' as 'IsEnum' Union ",
+						col.Append(string.Format(" Select '{0}' as 'SQL Name', '{1}' as 'SQL Type',{2}' as 'Display Name', '{5}' as 'IsEnum' Union ",
 														sql_name,
 														sql_type,
-														dotNet_name,
-														dotNet_type,
 														display,
 														isEnum
 													)
