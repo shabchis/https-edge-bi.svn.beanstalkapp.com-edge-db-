@@ -4,6 +4,8 @@
     [ParentAccountID] INT           NULL,
     [Status]          TINYINT       NULL,
     CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([ID] ASC),
-    CONSTRAINT [FK_Account_Account] FOREIGN KEY ([ParentAccountID]) REFERENCES [dbo].[Account] ([ID])
+    CONSTRAINT [FK_Account_ParentAccount] FOREIGN KEY ([ParentAccountID]) REFERENCES [dbo].[Account] ([ID])
 );
+
+
 
