@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[TargetDefinition] (
-    [GK]             BIGINT          NOT NULL,
+    [GK]             BIGINT          IDENTITY (1, 1) NOT NULL,
     [ObjectTypeID]   INT             NULL,
     [ObjectGK]       BIGINT          NOT NULL,
     [TargetTypeID]   INT             NULL,
@@ -27,4 +27,6 @@
     CONSTRAINT [FK_TargetDefinition_EdgeType] FOREIGN KEY ([ObjectTypeID]) REFERENCES [dbo].[EdgeType] ([TypeID]),
     CONSTRAINT [FK_TargetDefinition_Target] FOREIGN KEY ([TargetGK]) REFERENCES [dbo].[Target] ([GK])
 );
+
+
 
