@@ -1,11 +1,13 @@
 ﻿CREATE TABLE [dbo].[TargetMatch] (
-    [GK]                 BIGINT          NOT NULL,
+    [GK]                 BIGINT          IDENTITY (1, 1) NOT NULL,
+    [TypeID]             INT             NOT NULL,
     [ObjectTypeID]       INT             NULL,
     [ObjectGK]           BIGINT          NOT NULL,
     [TargetTypeID]       INT             NULL,
     [TargetGK]           BIGINT          NULL,
     [TargetDefinitionGK] BIGINT          NULL,
     [AccountID]          INT             NOT NULL,
+    [ChannelID]          INT             NULL,
     [OriginalID]         NVARCHAR (100)  NULL,
     [Name]               NVARCHAR (50)   NULL,
     [DestinationUrl]     NVARCHAR (1000) NULL,
@@ -27,4 +29,6 @@
     CONSTRAINT [FK_TargetMatch_Target] FOREIGN KEY ([TargetGK]) REFERENCES [dbo].[Target] ([GK]),
     CONSTRAINT [FK_TargetMatch_TargetDefinition] FOREIGN KEY ([TargetDefinitionGK]) REFERENCES [dbo].[TargetDefinition] ([GK])
 );
+
+
 
