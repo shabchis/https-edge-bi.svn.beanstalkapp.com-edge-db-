@@ -8,8 +8,10 @@
     [MeasureID]    INT             NOT NULL,
     [Value]        DECIMAL (18, 3) NOT NULL,
     CONSTRAINT [PK_Goal] PRIMARY KEY CLUSTERED ([ObjectTypeID] ASC, [ObjectGK] ASC, [DateStart] ASC, [DateEnd] ASC, [MeasureID] ASC),
-    CONSTRAINT [FK_Goal_EdgeType] FOREIGN KEY ([ObjectTypeID]) REFERENCES [dbo].[EdgeType] ([TypeID])
+    CONSTRAINT [FK_Goal_EdgeType] FOREIGN KEY ([ObjectTypeID]) REFERENCES [dbo].[MD_EdgeType] ([TypeID])
 );
+
+
 
 
 

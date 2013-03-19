@@ -58,7 +58,7 @@ public partial class StoredProcedures
 	}
 }
 
-	#if SHAY
+#if SHAY
 	[Microsoft.SqlServer.Server.SqlProcedure]
 	public static void GetTablesList(SqlInt32 accountID, SqlInt32 channelID)
 	{
