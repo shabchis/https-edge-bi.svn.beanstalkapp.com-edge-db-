@@ -104,9 +104,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="SQL" />
-    <Folder Include="SQL\Tables" />
-    <Folder Include="SQL\Stored Procedures" />
     <Folder Include="CLR" />
     <Folder Include="CLR\Internal" />
     <Folder Include="dbo\" />
