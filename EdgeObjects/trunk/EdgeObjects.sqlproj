@@ -109,24 +109,27 @@
     <Folder Include="SQL\Stored Procedures" />
     <Folder Include="CLR" />
     <Folder Include="CLR\Internal" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="SQL\Tables\EdgeObject.sql" />
-    <Build Include="SQL\Tables\Account.sql" />
-    <Build Include="SQL\Tables\ObjectTracking.sql" />
-    <Build Include="SQL\Tables\Goal.sql" />
-    <Build Include="SQL\Tables\Ad.sql" />
-    <Build Include="SQL\Tables\Target.sql" />
-    <Build Include="SQL\Tables\Creative.sql" />
-    <Build Include="SQL\Tables\Channel.sql" />
-    <Build Include="SQL\Tables\Measure.sql" />
-    <Build Include="SQL\Tables\ConnectionDefinition.sql" />
-    <Build Include="SQL\Tables\Connection.sql" />
-    <Build Include="SQL\Tables\CreativeCompositePart.sql" />
-    <Build Include="SQL\Tables\TargetMatch.sql" />
-    <Build Include="SQL\Tables\EdgeType.sql" />
-    <Build Include="SQL\Tables\TargetDefinition.sql" />
-    <Build Include="SQL\Tables\EdgeField.sql" />
+    <Build Include="dbo\Tables\MD_ObjectTracking.sql" />
+    <Build Include="dbo\Tables\MD_Measure.sql" />
+    <Build Include="dbo\Tables\MD_EdgeTypeField.sql" />
+    <Build Include="dbo\Tables\MD_EdgeType.sql" />
+    <Build Include="dbo\Tables\MD_EdgeField.sql" />
+    <Build Include="dbo\Tables\CreativeMatch.sql" />
+    <Build Include="dbo\Tables\CreativeDefinition.sql" />
+    <Build Include="dbo\Stored Procedures\MD_ObjectTables_Create.sql" />
+    <Build Include="dbo\Tables\Account.sql" />
+    <Build Include="dbo\Tables\TargetMatch.sql" />
+    <Build Include="dbo\Tables\Ad.sql" />
+    <Build Include="dbo\Tables\Channel.sql" />
+    <Build Include="dbo\Tables\Connection.sql" />
+    <Build Include="dbo\Tables\ConnectionDefinition.sql" />
+    <Build Include="dbo\Tables\Creative.sql" />
+    <Build Include="dbo\Tables\EdgeObject.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -151,6 +154,7 @@
       <Private>True</Private>
       <IsModelAware>True</IsModelAware>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
     <ProjectReference Include="..\..\..\edge-framework\Eggplant.Entities\trunk\Eggplant.Entities.csproj">
       <Name>Eggplant.Entities</Name>
@@ -158,6 +162,13 @@
       <Private>True</Private>
       <IsModelAware>True</IsModelAware>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Goal.sql" />
+    <Build Include="dbo\Tables\Measure.sql" />
+    <Build Include="dbo\Tables\Target.sql" />
+    <Build Include="dbo\Tables\TargetDefinition.sql" />
   </ItemGroup>
 </Project>

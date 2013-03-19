@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[ObjectTracking] (
+﻿CREATE TABLE [dbo].[MD_ObjectTracking] (
     [AccountID]        INT           NOT NULL,
     [ChannelID]        INT           NULL,
     [ObjectTable]      NVARCHAR (50) NOT NULL,
