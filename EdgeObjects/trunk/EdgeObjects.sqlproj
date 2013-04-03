@@ -105,10 +105,11 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="CLR" />
-    <Folder Include="CLR\Internal" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Security\" />
+    <Folder Include="CLR\Identity" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\MD_ObjectTracking.sql" />
@@ -127,18 +128,23 @@
     <Build Include="dbo\Tables\ConnectionDefinition.sql" />
     <Build Include="dbo\Tables\Creative.sql" />
     <Build Include="dbo\Tables\EdgeObject.sql" />
+    <Build Include="dbo\Stored Procedures\MD_Measure_Get.sql" />
+    <Build Include="dbo\Stored Procedures\MD_Fields_Shmaker.sql" />
+    <Build Include="dbo\Stored Procedures\MD_EdgeTypeField_Get.sql" />
+    <Build Include="dbo\Stored Procedures\MD_EdgeType_Get.sql" />
+    <Build Include="dbo\Stored Procedures\MD_EdgeField_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Channel_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Account_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CLR\ObjectViewer.cs" />
-    <Compile Include="CLR\EnumTables.cs" />
-    <Compile Include="CLR\Internal\SqlUtility.cs" />
-    <Compile Include="CLR\Internal\MappingMetaData.cs" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="log4net">
+      <HintPath>..\..\..\thirdparty\log4net\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.sql" />
@@ -161,11 +167,22 @@
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
       <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\edge-framework\Edge.Data.Pipeline.Metrics.Indentity\trunk\Edge.Data.Pipeline.Metrics.Indentity.csproj">
+      <Name>Edge.Data.Pipeline.Metrics.Indentity</Name>
+      <Project>{66c46dde-68b3-4d4f-bab0-b2b35fb6cb3e}</Project>
+      <Private>True</Private>
+      <IsModelAware>True</IsModelAware>
+      <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Goal.sql" />
     <Build Include="dbo\Tables\Measure.sql" />
     <Build Include="dbo\Tables\Target.sql" />
     <Build Include="dbo\Tables\TargetDefinition.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CLR\Identity\IdentityI.cs" />
+    <Compile Include="CLR\Identity\IdentityII.cs" />
   </ItemGroup>
 </Project>
