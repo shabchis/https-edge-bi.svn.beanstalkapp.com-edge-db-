@@ -23,8 +23,9 @@ public partial class StoredProcedures
 	/// * find best match staging table
 	/// * insert delivery metrics into staging metrics table
 	/// </summary>
+	// TODO: Pass only one parameter DeliveryID and load delivery from DB
 	[Microsoft.SqlServer.Server.SqlProcedure]
-    public static void IdentityII ()
+	public static void IdentityII (SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
@@ -35,9 +36,9 @@ public partial class StoredProcedures
 
 				var identityMng = new IdentityManager(deliveryConnection, objectsConnection);
 				// pass all delivery parameters as parameters to SP
-				identityMng.AccountId = 2;
-				identityMng.TablePrefix = "2__20130403_144213_5f368d7f48490b6484bcc9482b730dba";
-				identityMng.TransformTimestamp = DateTime.Now;
+				identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
+				identityMng.TablePrefix = deliveryTablePrefix.ToString();
+				identityMng.TransformTimestamp = Convert.ToDateTime(identity1Timestamp.ToString());
 
 				try
 				{

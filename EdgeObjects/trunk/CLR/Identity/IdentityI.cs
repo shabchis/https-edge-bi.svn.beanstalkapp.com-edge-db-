@@ -20,8 +20,9 @@ public partial class StoredProcedures
 	/// Identity stage I: update delivery objects with existing in EdgeObject DB object GKs 
 	/// tag Delivery objects by IdentityStatus (New, Modified or Unchanged)
 	/// </summary>
+	// TODO: Pass only one parameter DeliveryID and load delivery from DB
 	[Microsoft.SqlServer.Server.SqlProcedure]
-    public static void IdentityI ()
+	public static void IdentityI(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
@@ -32,8 +33,8 @@ public partial class StoredProcedures
 
 				var identityMng = new IdentityManager(deliveryConnection, objectsConnection);
 				// pass all delivery parameters as parameters to SP
-				identityMng.AccountId = 2;
-				identityMng.TablePrefix = "2__20130403_144213_5f368d7f48490b6484bcc9482b730dba";
+				identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
+				identityMng.TablePrefix = deliveryTablePrefix.ToString();
 
 				try
 				{

@@ -173,6 +173,7 @@
       <Private>True</Private>
       <IsModelAware>True</IsModelAware>
       <GenerateSqlClrDdl>True</GenerateSqlClrDdl>
+      <SqlPermissionSet>UNSAFE</SqlPermissionSet>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
