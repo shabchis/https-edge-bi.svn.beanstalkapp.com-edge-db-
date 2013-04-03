@@ -54,7 +54,10 @@ While (Len(@TablesList) > 0)
  
 			Insert Into #TableStructure(Structure)
 			Select
-			 '[' + C.Name + '] ' +  Ty.name + Case When C.Scale Is NULL Then '(' + Cast(C.Length as Varchar) + ') ' Else '' End +
+			 '[' + C.Name + '] ' +  Ty.name + Case	When C.Scale Is NULL Then '(' + Cast(C.Length as Varchar) + ') ' 
+										When C.Scale > 0 AND Ty.name = 'Decimal'  Then '(' + Cast(C.prec as Varchar) + ',' + Cast(C.Scale as Varchar) + ') '
+										Else  ''
+								End +
 						Case When C.IsNullable =0 And C.Colstat & 1 <> 1 Then ' NOT NULL ' Else ' NULL ' End 
 						-- + Case When C.Colstat & 1 = 1 Then ' Identity(' +  Cast(ident_seed(T.name) as varchar) + ',' + Cast(ident_incr(T.name) as Varchar) + ') '  Else '' End
 						+ Isnull(' Constraint ' + ChkCon.Name + ' Check ' + comments.Text ,'')
