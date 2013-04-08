@@ -25,7 +25,7 @@ public partial class StoredProcedures
 	/// </summary>
 	// TODO: Pass only one parameter DeliveryID and load delivery from DB
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void IdentityII (SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp)
+	public static void IdentityII(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlBoolean createNewEdgeObjects)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
@@ -38,6 +38,7 @@ public partial class StoredProcedures
 				// pass all delivery parameters as parameters to SP
 				identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
 				identityMng.TablePrefix = deliveryTablePrefix.ToString();
+				identityMng.CreateNewEdgeObjects = Convert.ToBoolean(createNewEdgeObjects.ToString());
 				identityMng.TransformTimestamp = Convert.ToDateTime(identity1Timestamp.ToString());
 
 				try
