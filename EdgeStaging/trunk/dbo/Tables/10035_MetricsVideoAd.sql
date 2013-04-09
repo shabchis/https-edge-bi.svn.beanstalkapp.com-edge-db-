@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[7_VideoAdChannel] (
+﻿CREATE TABLE [dbo].[10035_MetricsVideoAd] (
     [AccountID]                    BIGINT          NULL,
     [ChannelID]                    BIGINT          NULL,
     [AdGK]                         BIGINT          NULL,
