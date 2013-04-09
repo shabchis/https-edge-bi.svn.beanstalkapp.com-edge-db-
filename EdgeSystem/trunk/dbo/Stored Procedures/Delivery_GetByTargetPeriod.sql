@@ -1,14 +1,13 @@
-﻿
--- =============================================
+﻿-- =============================================
 -- Author:		<Shay Bar-Chen>
 -- Create date: <21/09/2011>
 -- Description:	<getting delivery by account id , channel and target period,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[DeliveryOutput_GetByTimePeriod] 
+CREATE PROCEDURE [dbo].[Delivery_GetByTargetPeriod] 
 @channelID int,
 @accountID int,
-@timePeriodStart datetime2,
-@timePeriodEnd datetime2
+@targetPeriodStart datetime2,
+@targetPeriodEnd datetime2
 
 AS
 BEGIN
@@ -18,9 +17,8 @@ BEGIN
 			'and TargetPeriodEnd=' + @targetPeriodEnd
 exec (@query)*/
 
-SELECT OutputID FROM dbo.DeliveryOutput WHERE [AccountID] = @accountID
+SELECT DeliveryID FROM dbo.Delivery WHERE [Account_ID] = @accountID
 and ChannelID = @channelID
-and TimePeriodStart = @timePeriodStart
-and TimePeriodEnd = @timePeriodEnd
+and TimePeriodStart = @targetPeriodStart
+and TimePeriodEnd = @targetPeriodEnd
 END
-

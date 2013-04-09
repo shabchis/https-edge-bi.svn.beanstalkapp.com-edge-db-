@@ -3,25 +3,25 @@
 -- Create date: <14/9/2011>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].Delivery_Delete
+CREATE PROCEDURE [dbo].[Delivery_Delete]
  @deliveryID char(32)
 
 	
 AS
 BEGIN
-	DELETE FROM [dbo].[Delivery]
+	DELETE FROM [EdgeSystem].[dbo].[Delivery]
       WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].[DeliveryFile]
+DELETE FROM [EdgeSystem].[dbo].[DeliveryFile]
        WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].[DeliveryFileParameters]
+DELETE FROM [EdgeSystem].[dbo].[DeliveryFileParameters]
        WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].[DeliveryParameters]
+DELETE FROM [EdgeSystem].[dbo].[DeliveryParameters]
       WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].DeliveryOutput
+DELETE FROM [EdgeSystem].[dbo].DeliveryOutput
       WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].DeliveryOutputParameters
+DELETE FROM [EdgeSystem].[dbo].DeliveryOutputParameters
       WHERE DeliveryID=@deliveryID
-DELETE FROM [dbo].DeliveryOutputChecksum
+DELETE FROM [EdgeSystem].[dbo].DeliveryOutputChecksum
       WHERE DeliveryID=@deliveryID
 
 END

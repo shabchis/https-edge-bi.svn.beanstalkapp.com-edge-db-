@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].ServiceExecutionHost_Unregister
+﻿CREATE PROCEDURE [dbo].[Service_HostUnregister]
 	@hostName nvarchar(50)
 AS
 BEGIN

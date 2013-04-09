@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].ServiceExecutionHost_List 
+﻿CREATE PROCEDURE [dbo].[Service_EnvironmentEventListenerUnregister]
+	@listenerID char(32)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -6,5 +7,6 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	select HostName, HostGuid, EndpointName, EndpointAddress from ServiceExecutionHost;
+	delete from ServiceEnvironmentEvent
+	where ListenerID = @listenerID;
 END
