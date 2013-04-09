@@ -17,9 +17,9 @@ SET @FromTable = '[EdgeDeliveries].'+@FromTable + '_MD_TEMP]'
 
 SET @ToTable = '[EdgeStaging].'+ @ToTable
 
-DECLARE @columnNames NVARCHAR(1000)  = ''
-DECLARE @SqlStr NVARCHAR(1000)    = ''
-DECLARE @SqlStr2 NVARCHAR(1000)    = ''
+DECLARE @columnNames NVARCHAR(4000)  = ''
+DECLARE @SqlStr NVARCHAR(4000)    = ''
+DECLARE @SqlStr2 NVARCHAR(4000)    = ''
 DECLARE @TableName NVARCHAR(1000)  = ''
 
 ----Insert column names into temp table/global variable------------
@@ -33,6 +33,8 @@ EXEC  (@SqlStr)
 ----------------------Insert fields Names as a list separated by comma
 
 SELECT   @columnNames  +=   EdgeFieldName  + ', '   FROM ##ListOfColumns
+
+
 
 --------------------Cut the last comma from string ------------------------------
 SET @columnNames =  LEFT (@columnNames, (LEN(@columnNames) -1))
@@ -48,8 +50,11 @@ SET @SqlStr2 =
 			'INSERT INTO ' +  @ToTable + '  (' + @columnNames + ')
 			 SELECT ' + @columnNames + ' FROM '+ @TableName 
 
-EXEC  (@SqlStr2)
+--print '*-----!-----'
+--print @columnNames
 --print @SqlStr2
+EXEC  (@SqlStr2)
+
 
 --------Drop temp objects---------------------------------------------------------------------------------------------
 IF EXISTS (SELECT * FROM ##ListOfColumns)  DROP  TABLE ##ListOfColumns
@@ -57,6 +62,8 @@ IF EXISTS (SELECT * FROM ##ListOfColumns)  DROP  TABLE ##ListOfColumns
 ----------------------------END----------------------------------------------------------------------------------------
 
 
-select * from  [EdgeStaging].[dbo].[k2]
+/*
 
---EXEC [EdgeStaging].[dbo].[sp_MetrixStaging] '[DBO].[test1]'  ,'[DBO].[k2]'
+EXEC [EdgeStaging].[dbo].[sp_MetrixStaging] '[DBO].[2__20130408_180408_5f368d7f48490b6484bcc9482b730dba_Metrics]'  ,'[DBO].[2_Metrics]'
+
+*/

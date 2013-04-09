@@ -28,14 +28,10 @@ public partial class StoredProcedures
 	public static void IdentityII(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlBoolean createNewEdgeObjects)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
-		using (var deliveryConnection = new SqlConnection("Server=localhost;Database=EdgeDeliveries;Integrated Security=SSPI"))
-		using (var systemConnection = new SqlConnection("Server=localhost;Database=EdgeSystem;Integrated Security=SSPI"))
 		{
 			objectsConnection.Open();
-			deliveryConnection.Open();
-			systemConnection.Open();
-
-			var identityMng = new IdentityManager(deliveryConnection, objectsConnection, systemConnection);
+			var identityMng = new IdentityManager(objectsConnection);
+			
 			// pass all delivery parameters as parameters to SP
 			identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
 			identityMng.TablePrefix = deliveryTablePrefix.ToString();
