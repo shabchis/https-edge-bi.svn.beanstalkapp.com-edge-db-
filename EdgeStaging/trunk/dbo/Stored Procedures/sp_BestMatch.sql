@@ -76,7 +76,7 @@ SELECT  [TableName]
  '
 
 
- print @SqlStr1
+ --print @SqlStr1
  exec (@SqlStr1)
    
 /*---------------------------------------FIND BEST MATCH TABLE----------------------------------
@@ -94,7 +94,9 @@ exec (@SqlStr1)
 
 --------Select One  Table in case there are more than one adjustments
 SELECT @BestMatch  = (SELECT  TOP 1 (T1.TableName) FROM ##Temp AS T1 INNER JOIN ##Temp AS T2
-ON T1.FieldsCount < T2.FieldsCount)
+ON T1.FieldsCount <= T2.FieldsCount)
+
+--print @BestMatch
 
 
 PRINT 'See in "Results" tables that "Best Match" algorithm found :'
