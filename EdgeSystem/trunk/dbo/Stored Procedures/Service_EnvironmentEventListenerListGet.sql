@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].ServiceEnvironmentEvent_List 
+﻿CREATE PROCEDURE [dbo].[Service_EnvironmentEventListenerListGet] 
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -6,5 +6,5 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	select EventType, EndpointName, EndpointAddress from ServiceEnvironmentEvent;
+	select ListenerID, EventType, EndpointName, EndpointAddress from ServiceEnvironmentEvent;
 END

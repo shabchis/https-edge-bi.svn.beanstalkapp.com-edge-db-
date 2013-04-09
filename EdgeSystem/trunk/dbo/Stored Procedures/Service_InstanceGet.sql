@@ -3,7 +3,7 @@
 -- Create date: 
 -- Description:	
 -- =============================================
-CREATE PROCEDURE [dbo].[ServiceInstance_Get] 
+CREATE PROCEDURE [dbo].[Service_InstanceGet] 
 	@instanceID char(32),
 	@stateInfoOnly bit 
 AS

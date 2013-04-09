@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].ServiceExecutionHost_Register
+﻿CREATE PROCEDURE [dbo].[Service_HostRegister]
 	@hostName nvarchar(50),
 	@hostGuid char(32),
 	@endpointName nvarchar(100),

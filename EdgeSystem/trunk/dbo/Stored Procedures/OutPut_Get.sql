@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[DeliveryOutput_Get]
+CREATE PROCEDURE [dbo].[OutPut_Get]
 @outputID as Char(32)
 AS
 BEGIN
@@ -17,14 +17,14 @@ BEGIN
       ,[DateCreated]
       ,[DateModified]
       ,[PipelineInstanceID]
-  FROM [dbo].[DeliveryOutput]
+  FROM [EdgeSystem].[dbo].[DeliveryOutput]
   WHERE [OutputID]=@outputID  
   ------------DeliveryOutputParameters------- 
 SELECT [DeliveryID]
       ,[OutputID]
       ,[Key]
       ,[Value]
-  FROM [dbo].[DeliveryOutputParameters]
+  FROM [EdgeSystem].[dbo].[DeliveryOutputParameters]
   WHERE [OutputID]=@outputID  
   
   -----------OutputCheckSum--------
@@ -32,7 +32,7 @@ SELECT [DeliveryID]
       ,[OutputID]
       ,[MeasureName]
       ,[Total]
-  FROM [dbo].[DeliveryOutputChecksum]
+  FROM [EdgeSystem].[dbo].[DeliveryOutputChecksum]
   WHERE [OutputID]=@outputID  
   
  
@@ -57,5 +57,3 @@ SELECT [DeliveryID]
 
 
 END
-
-

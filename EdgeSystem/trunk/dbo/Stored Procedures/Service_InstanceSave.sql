@@ -3,7 +3,7 @@
 -- Create date: 
 -- Description:	
 -- =============================================
-CREATE PROCEDURE ServiceInstance_Save 
+CREATE PROCEDURE Service_InstanceSave 
 	
 	@instanceID char(32),
 	@parentInstanceID char(32),

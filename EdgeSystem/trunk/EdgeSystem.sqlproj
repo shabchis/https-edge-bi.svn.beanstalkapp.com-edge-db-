@@ -103,144 +103,176 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="SQL" />
-    <Folder Include="SQL\Tables" />
-    <Folder Include="SQL\Functions" />
-    <Folder Include="SQL\Stored Procedures" />
     <Folder Include="CLR" />
-    <Folder Include="SQL\Stored Procedures\__dev" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Assemblies\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="SQL\Tables\Log.sql">
+    <Build Include="dbo\Tables\ServiceInstance_v3.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryParameters.sql">
+    <Build Include="dbo\Tables\ServiceExecutionStatistics.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryFileParameters.sql">
+    <Build Include="dbo\Tables\Scheduling.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\ServiceInstance.sql">
+    <Build Include="dbo\Tables\Schedulers.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryOutputParameters.sql">
+    <Build Include="dbo\Tables\Log_v3.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryOutputChecksum.sql">
+    <Build Include="dbo\Tables\GoogleReportType_Const.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\ServiceEnvironmentEvent.sql">
+    <Build Include="dbo\Tables\GoogleReportsDefinitions.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\Delivery.sql">
+    <Build Include="dbo\Tables\GoogleDateRangeType_Const.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryFile.sql">
+    <Build Include="dbo\Tables\Employee.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\DeliveryOutput.sql">
+    <Build Include="dbo\Tables\DeliveryTicket.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Tables\ServiceExecutionHost.sql">
+    <Build Include="dbo\Tables\DeliveryParameters_MIG.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Functions\SplitString.sql">
+    <Build Include="dbo\Tables\DeliveryOutput_MIG.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceInstance_Save.sql">
+    <Build Include="dbo\Tables\Delivery_Mig.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\Delivery_GetByTimePeriod.sql">
+    <Build Include="dbo\Stored Procedures\SetGoogleReportDefinitionId.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\Delivery_Get.sql">
+    <Build Include="dbo\Stored Procedures\Service_InstanceSave.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\DeliveryOutput_GetBySignature.sql">
+    <Build Include="dbo\Stored Procedures\Service_InstanceGet.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\Delivery_Delete.sql">
+    <Build Include="dbo\Stored Procedures\Service_InstanceActiveList_GetByTime.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\DeliveryOutput_Get.sql">
+    <Build Include="dbo\Stored Procedures\Service_HostUnregister.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\DeliveryOutput_GetByTimePeriod.sql">
+    <Build Include="dbo\Stored Procedures\Service_HostRegister.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceEnvironmentEvent_Register.sql">
+    <Build Include="dbo\Stored Procedures\Service_HostList.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceEnvironmentEvent_List.sql">
+    <Build Include="dbo\Stored Procedures\Service_ExecutionStatistics_GetByPercentile.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\DeliveryOutput_Delete.sql">
+    <Build Include="dbo\Stored Procedures\Service_EnvironmentEventListenerUnregister.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\DeliveryFile_GetBySignature.sql">
+    <Build Include="dbo\Stored Procedures\Service_EnvironmentEventListenerRegister.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\Base64ToString.sql">
+    <Build Include="dbo\Stored Procedures\Service_EnvironmentEventListenerListGet.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceInstance_Get.sql">
+    <Build Include="dbo\Stored Procedures\ResetUnendedServices.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceExecutionHost_List.sql">
+    <Build Include="dbo\Stored Procedures\Output_GetByTargetPeriod.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceExecutionHost_Register.sql">
+    <Build Include="dbo\Stored Procedures\Output_GetBySignature.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\ServiceExecutionHost_Unregister.sql">
+    <Build Include="dbo\Stored Procedures\OutPut_Get.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\__dev\Output_Signature_Migration_Adwords_GND.sql">
+    <Build Include="dbo\Stored Procedures\Output_Delete.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="SQL\Stored Procedures\__dev\SP_RollBack_DWH.sql">
+    <Build Include="dbo\Stored Procedures\GetGoogleReportDefinitionId.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
+    <Build Include="dbo\Stored Procedures\DeliveryTicket_Get.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Delivery_GetByTargetPeriod.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Delivery_GetBySignature.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Delivery_Get_OLD.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Delivery_Delete_OLD.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="ExtendedProperties.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Edge.Utilities.CLR.SignatureMigration">
+      <HintPath>Assemblies\Edge.Utilities.CLR.SignatureMigration.dll</HintPath>
+      <SqlAssemblyName>Edge.Utilities.CLR.SignatureMigration</SqlAssemblyName>
+      <IsModelAware>True</IsModelAware>
+      <GenerateSqlClrDdl>False</GenerateSqlClrDdl>
+      <SqlOwnerName>dbo</SqlOwnerName>
+      <SqlPermissionSet>SAFE</SqlPermissionSet>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLR\ConvertFromBase64CLR.cs" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EdgeSystem.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assemblies\Edge.Utilities.CLR.SignatureMigration.dll" />
+    <None Include="EdgeSystem.publish.xml" />
   </ItemGroup>
 </Project>

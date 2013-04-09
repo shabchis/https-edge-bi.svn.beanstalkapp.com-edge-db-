@@ -21,14 +21,14 @@ SELECT [DeliveryID]
       ,[TimePeriodDefinition]
       ,[TimePeriodStart]
       ,[TimePeriodEnd]     
-  FROM [dbo].[Delivery]
+  FROM [EdgeSystem].[dbo].[Delivery]
   WHERE [DeliveryID]=@deliveryID
    ---------------DeliveryParameters---------
   
 SELECT [DeliveryID]
       ,[Key]
       ,[Value]
-  FROM [dbo].[DeliveryParameters]
+  FROM [EdgeSystem].[dbo].[DeliveryParameters]
    WHERE [DeliveryID]=@deliveryID
    
   ------------DELIVERY FILE---------------
@@ -42,7 +42,7 @@ SELECT [DeliveryID]
       ,[SourceUrl]
       ,[Location]
       ,[FileSignature]
-  FROM [dbo].[DeliveryFile]
+  FROM [EdgeSystem].[dbo].[DeliveryFile]
    WHERE [DeliveryID]=@deliveryID
    ORDER BY [FileID]
    --------DeliveryFileParameters-----------
@@ -50,7 +50,7 @@ SELECT [DeliveryID]
       ,[Name]
       ,[Key]
       ,[Value]
-  FROM [dbo].[DeliveryFileParameters]
+  FROM [EdgeSystem].[dbo].[DeliveryFileParameters]
    WHERE [DeliveryID]=@deliveryID
   ORDER BY [Name]
   ----------DeliveryOutput
@@ -66,21 +66,21 @@ SELECT [DeliveryID]
       ,[DateCreated]
       ,[DateModified]
       ,[PipelineInstanceID]
-  FROM [dbo].[DeliveryOutput]
+  FROM [EdgeSystem].[dbo].[DeliveryOutput]
   WHERE [DeliveryID]=@deliveryID
   ------------DeliveryOutputParameters------- 
 SELECT [DeliveryID]
       ,[OutputID]
       ,[Key]
       ,[Value]
-  FROM [dbo].[DeliveryOutputParameters]
+  FROM [EdgeSystem].[dbo].[DeliveryOutputParameters]
   WHERE [DeliveryID]=@deliveryID
   -----------OutputCheckSum--------
   SELECT [DeliveryID]
       ,[OutputID]
       ,[MeasureName]
       ,[Total]
-  FROM [dbo].[DeliveryOutputChecksum]
+  FROM [EdgeSystem].[dbo].[DeliveryOutputChecksum]
   WHERE [DeliveryID]=@deliveryID
   
   
