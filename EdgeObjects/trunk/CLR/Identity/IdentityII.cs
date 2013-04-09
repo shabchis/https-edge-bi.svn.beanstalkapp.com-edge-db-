@@ -28,28 +28,30 @@ public partial class StoredProcedures
 	public static void IdentityII(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlBoolean createNewEdgeObjects)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
+		using (var deliveryConnection = new SqlConnection("Server=localhost;Database=EdgeDeliveries;Integrated Security=SSPI"))
+		using (var systemConnection = new SqlConnection("Server=localhost;Database=EdgeSystem;Integrated Security=SSPI"))
 		{
-			using (var deliveryConnection = new SqlConnection("Server=localhost;Database=EdgeDeliveries;Integrated Security=SSPI"))
+			objectsConnection.Open();
+			deliveryConnection.Open();
+			systemConnection.Open();
+
+			var identityMng = new IdentityManager(deliveryConnection, objectsConnection, systemConnection);
+			// pass all delivery parameters as parameters to SP
+			identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
+			identityMng.TablePrefix = deliveryTablePrefix.ToString();
+			identityMng.CreateNewEdgeObjects = Convert.ToBoolean(createNewEdgeObjects.ToString());
+			identityMng.TransformTimestamp = Convert.ToDateTime(identity1Timestamp.ToString());
+
+			identityMng.Log(string.Format("Starting Identity II, parameters: accountId={0}, delivery table prefix='{1}', identity I timestamp={2}, create new delivery objects={3}",
+										   accoutId, deliveryTablePrefix, identityMng.TransformTimestamp.ToString("dd/MM/yyyy HH:mm:ss"), identityMng.CreateNewEdgeObjects));
+			try
 			{
-				objectsConnection.Open();
-				deliveryConnection.Open();
-
-				var identityMng = new IdentityManager(deliveryConnection, objectsConnection);
-				// pass all delivery parameters as parameters to SP
-				identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
-				identityMng.TablePrefix = deliveryTablePrefix.ToString();
-				identityMng.CreateNewEdgeObjects = Convert.ToBoolean(createNewEdgeObjects.ToString());
-				identityMng.TransformTimestamp = Convert.ToDateTime(identity1Timestamp.ToString());
-
-				try
-				{
-					identityMng.UpdateEdgeObjects();
-				}
-				catch (System.Exception ex)
-				{
-					// TODO: write to log in DB
-					throw;
-				}
+				identityMng.UpdateEdgeObjects();
+			}
+			catch (System.Exception ex)
+			{
+				// TODO: write to log in DB
+				throw;
 			}
 		}
     }

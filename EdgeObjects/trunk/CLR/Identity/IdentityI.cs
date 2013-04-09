@@ -25,26 +25,27 @@ public partial class StoredProcedures
 	public static void IdentityI(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlBoolean createNewEdgeObjects)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
+		using (var deliveryConnection = new SqlConnection("Server=localhost;Database=EdgeDeliveries;Integrated Security=SSPI"))
+		using (var systemConnection = new SqlConnection("Server=localhost;Database=EdgeSystem;Integrated Security=SSPI"))
 		{
-			using (var deliveryConnection = new SqlConnection("Server=localhost;Database=EdgeDeliveries;Integrated Security=SSPI"))
-			{
-				objectsConnection.Open();
-				deliveryConnection.Open();
+			objectsConnection.Open();
+			deliveryConnection.Open();
+			systemConnection.Open();
 
-				var identityMng = new IdentityManager(deliveryConnection, objectsConnection);
-				// pass all delivery parameters as parameters to SP
-				identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
-				identityMng.TablePrefix = deliveryTablePrefix.ToString();
-				
-				try
-				{
-					identityMng.IdentifyDeliveryObjects();
-				}
-				catch (System.Exception ex)
-				{
-					// TODO: write to log in DB
-					throw;
-				}
+			var identityMng = new IdentityManager(deliveryConnection, objectsConnection, systemConnection);
+			// pass all delivery parameters as parameters to SP
+			identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
+			identityMng.TablePrefix = deliveryTablePrefix.ToString();
+
+			identityMng.Log(string.Format("Starting Identity I, parameters: accountId={0}, delivery table prefix='{1}'", accoutId, deliveryTablePrefix));
+			try
+			{
+				identityMng.IdentifyDeliveryObjects();
+			}
+			catch (System.Exception ex)
+			{
+				// TODO: write to log in DB
+				throw;
 			}
 		}
     }
