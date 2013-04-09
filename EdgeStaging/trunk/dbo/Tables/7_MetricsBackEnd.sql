@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[7_BackEnd] (
+﻿CREATE TABLE [dbo].[7_MetricsBackEnd] (
     [AccountID]         BIGINT          NULL,
     [ChannelID]         BIGINT          NULL,
     [TrackerGK]         BIGINT          NULL,

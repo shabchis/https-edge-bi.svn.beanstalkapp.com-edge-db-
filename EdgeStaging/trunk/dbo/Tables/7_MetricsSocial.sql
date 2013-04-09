@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[7_SocialChannel] (
+﻿CREATE TABLE [dbo].[7_MetricsSocial] (
     [AccountID]                 BIGINT          NULL,
     [ChannelID]                 BIGINT          NULL,
     [AdGK]                      BIGINT          NULL,
