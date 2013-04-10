@@ -13,7 +13,7 @@ using Edge.Data.Pipeline.Metrics.Indentity;
 public partial class StoredProcedures
 {
     [Microsoft.SqlServer.Server.SqlProcedure]
-	public static void ObjectViewer(SqlInt32 accout)
+	public static void MD_ObjectsViewer(SqlInt32 accout)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{

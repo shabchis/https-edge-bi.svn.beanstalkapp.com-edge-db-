@@ -186,6 +186,6 @@
   <ItemGroup>
     <Compile Include="CLR\Identity\IdentityI.cs" />
     <Compile Include="CLR\Identity\IdentityII.cs" />
-    <Compile Include="CLR\Identity\ObjectViewer.cs" />
+    <Compile Include="CLR\Identity\MD_ObjectsViewer.cs" />
   </ItemGroup>
 </Project>
