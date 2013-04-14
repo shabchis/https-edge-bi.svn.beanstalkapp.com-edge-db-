@@ -12,15 +12,19 @@ using Edge.Data.Pipeline.Metrics.Indentity;
 
 public partial class StoredProcedures
 {
+	/// <summary>
+	/// Combine SELECT of relevant fields only per each edge type
+	/// </summary>
+	/// <param name="account"></param>
     [Microsoft.SqlServer.Server.SqlProcedure]
-	public static void MD_ObjectsViewer(SqlInt32 accout)
+	public static void MD_ObjectsViewer(SqlInt32 account)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
 			objectsConnection.Open();
 
-			int accountId = Convert.ToInt32(accout.ToString());
-			EdgeObjectConfigLoader.GetObjectsView(accountId, objectsConnection, SqlContext.Pipe);
+			int accountId = Convert.ToInt32(account.ToString());
+			EdgeViewer.GetObjectsView(accountId, objectsConnection, SqlContext.Pipe);
 		}
     }
 }

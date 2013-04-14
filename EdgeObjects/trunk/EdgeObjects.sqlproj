@@ -110,6 +110,7 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="CLR\Identity" />
+    <Folder Include="CLR\Viewers" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\MD_ObjectTracking.sql" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <Compile Include="CLR\Identity\IdentityI.cs" />
     <Compile Include="CLR\Identity\IdentityII.cs" />
-    <Compile Include="CLR\Identity\MD_ObjectsViewer.cs" />
+    <Compile Include="CLR\Viewers\MD_ObjectsViewer.cs" />
+    <Compile Include="CLR\Viewers\MD_MetricsViewer.cs" />
   </ItemGroup>
 </Project>
