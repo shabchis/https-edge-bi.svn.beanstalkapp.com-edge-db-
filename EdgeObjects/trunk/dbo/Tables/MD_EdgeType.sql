@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[MD_EdgeType] (
-    [TypeID]     INT            IDENTITY (1, 1) NOT NULL,
+    [TypeID]     INT            NOT NULL,
     [BaseTypeID] INT            NULL,
     [ClrType]    NVARCHAR (200) NOT NULL,
     [Name]       NVARCHAR (50)  NOT NULL,
@@ -11,4 +11,6 @@
     CONSTRAINT [FK_EdgeType_Account] FOREIGN KEY ([AccountID]) REFERENCES [dbo].[Account] ([ID]),
     CONSTRAINT [FK_EdgeType_Channel] FOREIGN KEY ([ChannelID]) REFERENCES [dbo].[Channel] ([ID])
 );
+
+
 
