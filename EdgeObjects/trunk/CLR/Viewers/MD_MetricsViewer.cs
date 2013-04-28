@@ -19,13 +19,13 @@ public partial class StoredProcedures
 	/// <param name="deliveryTableName"></param>
 	/// <param name="metricsSelect"></param>
     [Microsoft.SqlServer.Server.SqlProcedure]
-	public static void MD_MetricsViewer(SqlInt32 account, SqlString deliveryTableName, out SqlString metricsSelect)
+	public static void MD_MetricsViewer(SqlInt32 account, SqlString deliveryTableName, out SqlChars metricsSelect)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
 			objectsConnection.Open();
 			int accountId = Convert.ToInt32(account.ToString());
-			metricsSelect = new SqlString(EdgeViewer.GetMetricsView(accountId, deliveryTableName.ToString(), objectsConnection));
+			metricsSelect = new SqlChars(EdgeViewer.GetMetricsView(accountId, deliveryTableName.ToString(), objectsConnection));
 		}
     }
 }
