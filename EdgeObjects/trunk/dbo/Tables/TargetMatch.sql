@@ -2,7 +2,7 @@
     [GK]                    BIGINT          IDENTITY (1, 1) NOT NULL,
     [TypeID]                INT             NOT NULL,
     [Parent_type]           INT             NULL,
-    [Parent_gk]             BIGINT          NOT NULL,
+    [Parent_gk]             BIGINT          NULL,
     [Target_type]           INT             NULL,
     [Target_gk]             BIGINT          NULL,
     [TargetDefinition_type] NCHAR (10)      NULL,
@@ -52,6 +52,8 @@
     CONSTRAINT [FK_TargetMatch_Target] FOREIGN KEY ([Target_gk]) REFERENCES [dbo].[Target] ([GK]),
     CONSTRAINT [FK_TargetMatch_TargetDefinition] FOREIGN KEY ([TargetDefinition_gk]) REFERENCES [dbo].[TargetDefinition] ([GK])
 );
+
+
 
 
 

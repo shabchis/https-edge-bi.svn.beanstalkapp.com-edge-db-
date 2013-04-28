@@ -2,7 +2,7 @@
     [GK]               BIGINT          IDENTITY (1, 1) NOT NULL,
     [TypeID]           INT             NULL,
     [Parent_type]      INT             NULL,
-    [Parent_gk]        BIGINT          NOT NULL,
+    [Parent_gk]        BIGINT          NULL,
     [Target_type]      INT             NULL,
     [Target_gk]        BIGINT          NULL,
     [AccountID]        INT             NOT NULL,
@@ -49,6 +49,8 @@
     CONSTRAINT [FK_TargetDefinition_EdgeType] FOREIGN KEY ([Parent_type]) REFERENCES [dbo].[MD_EdgeType] ([TypeID]),
     CONSTRAINT [FK_TargetDefinition_Target] FOREIGN KEY ([Target_gk]) REFERENCES [dbo].[Target] ([GK])
 );
+
+
 
 
 
