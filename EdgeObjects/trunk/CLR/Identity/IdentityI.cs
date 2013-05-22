@@ -38,7 +38,7 @@ public partial class StoredProcedures
 			{
 				identityMng.IdentifyDeliveryObjects();
 			}
-			catch (System.Exception ex)
+			catch (System.Exception)
 			{
 				// TODO: write to log in DB
 				throw;
