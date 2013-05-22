@@ -10,7 +10,6 @@ using System.Data.SqlTypes;
 using Microsoft.SqlServer.Server;
 using Edge.Data.Pipeline.Metrics.Indentity;
 using Edge.Data.Objects;
-using log4net;
 
 public partial class StoredProcedures
 {
