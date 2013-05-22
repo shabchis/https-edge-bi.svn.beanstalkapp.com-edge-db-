@@ -143,9 +143,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="log4net">
-      <HintPath>..\..\..\thirdparty\log4net\log4net.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Debug.sql" />
