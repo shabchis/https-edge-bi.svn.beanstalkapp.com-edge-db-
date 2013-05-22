@@ -111,6 +111,7 @@
     <Folder Include="Security\" />
     <Folder Include="CLR\Identity" />
     <Folder Include="CLR\Viewers" />
+    <Folder Include="CLR\Staging" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\MD_ObjectTracking.sql" />
@@ -186,5 +187,6 @@
     <Compile Include="CLR\Identity\IdentityII.cs" />
     <Compile Include="CLR\Viewers\MD_ObjectsViewer.cs" />
     <Compile Include="CLR\Viewers\MD_MetricsViewer.cs" />
+    <Compile Include="CLR\Staging\MetricsStaging.cs" />
   </ItemGroup>
 </Project>
