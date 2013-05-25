@@ -19,7 +19,7 @@ public partial class StoredProcedures
 	/// <param name="deliveryTable"></param>
 	/// <param name="stagingTable"></param>
     [Microsoft.SqlServer.Server.SqlProcedure]
-	public static void MetricsStaging(SqlInt32 accoutId, SqlString deliveryTable, SqlString stagingTable, out SqlChars metricsSelect)
+	public static void MetricsStaging(SqlInt32 accoutId, SqlString deliveryTable, SqlString stagingTable, out SqlChars stagingSql)
     {
 		using (var connection = new SqlConnection("context connection=true"))
 		{
@@ -32,7 +32,7 @@ public partial class StoredProcedures
 
 			try
 			{
-				metricsSelect = new SqlChars(EdgeViewer.StageMetrics(account, deliveryTableName, stagingTableName, connection));
+				stagingSql = new SqlChars(EdgeViewer.StageMetrics(account, deliveryTableName, stagingTableName, connection));
 			}
 			catch (System.Exception ex)
 			{
