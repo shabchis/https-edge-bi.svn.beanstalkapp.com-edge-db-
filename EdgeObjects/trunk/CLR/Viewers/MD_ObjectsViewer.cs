@@ -17,14 +17,14 @@ public partial class StoredProcedures
 	/// </summary>
 	/// <param name="account"></param>
     [Microsoft.SqlServer.Server.SqlProcedure]
-	public static void MD_ObjectsViewer(SqlInt32 account)
+	public static void MD_ObjectsViewer(SqlInt32 account, SqlString stagingTableName)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
 			objectsConnection.Open();
 
 			int accountId = Convert.ToInt32(account.ToString());
-			EdgeViewer.GetObjectsView(accountId, objectsConnection, SqlContext.Pipe);
+			EdgeViewer.GetObjectsView(accountId, stagingTableName.ToString(), objectsConnection, SqlContext.Pipe);
 		}
     }
 }
