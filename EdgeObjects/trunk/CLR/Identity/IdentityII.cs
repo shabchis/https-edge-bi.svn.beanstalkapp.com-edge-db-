@@ -24,7 +24,7 @@ public partial class StoredProcedures
 	/// </summary>
 	// TODO: Pass only one parameter DeliveryID and load delivery from DB
 	[Microsoft.SqlServer.Server.SqlProcedure]
-	public static void IdentityII(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlBoolean createNewEdgeObjects)
+	public static void IdentityII(SqlInt32 accoutId, SqlString deliveryTablePrefix, SqlDateTime identity1Timestamp, SqlString identityConfig)
     {
 		using (var objectsConnection = new SqlConnection("context connection=true"))
 		{
@@ -34,11 +34,11 @@ public partial class StoredProcedures
 			// pass all delivery parameters as parameters to SP
 			identityMng.AccountId = Convert.ToInt32(accoutId.ToString());
 			identityMng.TablePrefix = deliveryTablePrefix.ToString();
-			identityMng.CreateNewEdgeObjects = Convert.ToBoolean(createNewEdgeObjects.ToString());
+			identityMng.ConfigXml =identityConfig.ToString();
 			identityMng.TransformTimestamp = Convert.ToDateTime(identity1Timestamp.ToString());
 
-			identityMng.Log(string.Format("Starting Identity II, parameters: accountId={0}, delivery table prefix='{1}', identity I timestamp={2}, create new delivery objects={3}",
-										   accoutId, deliveryTablePrefix, identityMng.TransformTimestamp.ToString("dd/MM/yyyy HH:mm:ss"), identityMng.CreateNewEdgeObjects));
+			identityMng.Log(string.Format("Starting Identity II, parameters: accountId={0}, delivery table prefix='{1}', identity I timestamp={2}, identity config={3}",
+										   accoutId, deliveryTablePrefix, identityMng.TransformTimestamp.ToString("dd/MM/yyyy HH:mm:ss"), identityMng.ConfigXml));
 			try
 			{
 				identityMng.UpdateEdgeObjects();
